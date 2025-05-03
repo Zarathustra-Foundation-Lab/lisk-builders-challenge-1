@@ -7,11 +7,13 @@
     <link rel="stylesheet" href="style.css">
     <!-- Icons -->
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <!-- GSAP for animation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js" integrity="sha512-NcZdtrT77bJr4STcmsGAESr06BYGE8woZdSdEgqnpyqac7sugNO+Tr4bGwGF3MsnEkGKhU2KL2xh6Ec+BqsaHA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 <body>
     <!-- Navbar -->
-     <header>
-         <nav class="w-full fixed top-0 left-0 flex justify-between items-center px-8 py-4 text-black">
+     <header class="w-full fixed top-0 left-0 z-50">
+         <nav class="flex justify-between items-center px-8 py-4 text-black">
              <div class="font-semibold text-xl">Hertanate</div>
              <button class="w-fit px-8 py-3 bg-[#6451AB] text-white rounded-lg font-medium shadow-lg hover:shadow-[#6451AB]/50 transition-all hover:-translate-y-1">
                  Get Started
@@ -21,7 +23,7 @@
 
     <div class="w-full h-dvh snap-y snap-mandatory overflow-y-auto bg-primary/5">
         <!-- Section 1 -->
-        <div class="section">
+        <div class="section" id="hero">
             <div class="w-1/2 flex flex-col gap-6">
                 <h1 class="text-6xl font-semibold">Hertanate. <br> <span class="bg-gradient-to-r from-[#806699] to-[#846ae4] text-transparent bg-clip-text">Decentralized</span> Donation for Creators</h1>
                 <p class="text-xl font-light text-gray-600 text-justify">
@@ -31,9 +33,12 @@
                     Connect Wallet
                 </button>
             </div>
-            <div class="w-1/2 flex justify-center items-center">
+
+            <!-- Card -->
+            <div class="w-1/2 flex justify-center items-center relative">
+                <img src="/images/TheHerta.webp" alt="The Herta" class="absolute bottom-20 right-0 w-96">
                 <div class="relative w-lg h-72">
-                    <div class="w-96 h-48 bg-gradient-to-br from-[#806699] to-[#6451AB] rounded-2xl p-6 relative overflow-hidden shadow-xl hover:shadow-[#6451AB]/50 transition-all hover:-translate-y-1">
+                    <div class="w-96 h-48 animate-floating bg-gradient-to-br from-[#806699] to-[#6451AB] rounded-2xl p-6 relative overflow-hidden shadow-xl hover:shadow-[#6451AB]/50 transition-all hover:-translate-y-1">
                         <div class="absolute -top-16 -right-16 w-32 h-32 bg-white/20 rounded-full blur-2xl"></div>
                         <div class="absolute -bottom-16 -left-16 w-32 h-32 bg-white/20 rounded-full blur-2xl"></div>
                         
@@ -54,7 +59,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="absolute bottom-0 right-0 -z-10 w-96 h-48 bg-gradient-to-br from-[#487A92] to-[#3FD3CC] rounded-2xl p-6 overflow-hidden shadow-xl hover:shadow-[#3FD3CC]/50 transition-all hover:-translate-y-1">
+                    <div class="absolute bottom-0 right-0 animate-delay-floating -z-10 w-96 h-48 bg-gradient-to-br from-[#487A92] to-[#3FD3CC] rounded-2xl p-6 overflow-hidden shadow-xl hover:shadow-[#3FD3CC]/50 transition-all hover:-translate-y-1">
                         <div class="absolute -top-16 -right-16 w-32 h-32 bg-[#465E6A]/20 rounded-full blur-2xl"></div>
                         <div class="absolute -bottom-16 -left-16 w-32 h-32 bg-[#E1620C]/20 rounded-full blur-2xl"></div>
                         
@@ -116,12 +121,11 @@
             </div>
         </div>
         <!-- Section 3 -->
-        <div class="section">
-            <div class="flex flex-col items-center w-full space-y-12">
-                <h2 class="text-4xl font-bold text-[#6451AB]">How It Works</h2>
-                
-                <div class="flex flex-col md:flex-row items-center justify-center gap-8 w-full">
-                    <div class="flex flex-col items-center text-center space-y-4 max-w-xs">
+        <div class="section flex-col justify-center gap-4">
+            <h2 class="text-4xl font-bold text-[#6451AB]">How It Works</h2>
+            <div class="flex justify-between items-center gap-8">
+                <div class="flex flex-col md:flex-row items-center justify-center">
+                    <div class="flex flex-col items-center text-center gap-2 max-w-xs">
                         <div class="w-20 h-20 bg-gradient-to-br from-[#806699] to-[#6451AB] rounded-full flex items-center justify-center group-hover:scale-110 transition-all">
                             <i class='bx bx-wallet-alt text-4xl text-white'></i>
                         </div>
@@ -134,7 +138,7 @@
                         <i class='bx bx-down-arrow-alt text-3xl text-[#6451AB] block md:hidden'></i>
                     </div>
 
-                    <div class="flex flex-col items-center text-center space-y-4 max-w-xs">
+                    <div class="flex flex-col items-center text-center gap-2 max-w-xs">
                         <div class="w-20 h-20 bg-gradient-to-br from-[#806699] to-[#6451AB] rounded-full flex items-center justify-center group-hover:scale-110 transition-all">
                             <i class='bx bx-money text-4xl text-white'></i>
                         </div>
@@ -146,13 +150,47 @@
                         <i class='bx bx-right-arrow-alt text-3xl text-[#6451AB] hidden md:block'></i>
                         <i class='bx bx-down-arrow-alt text-3xl text-[#6451AB] block md:hidden'></i>
                     </div>
-
-                    <div class="flex flex-col items-center text-center space-y-4 max-w-xs">
+                    
+                    <div class="flex flex-col items-center text-center gap-2 max-w-xs">
                         <div class="w-20 h-20 bg-gradient-to-br from-[#806699] to-[#6451AB] rounded-full flex items-center justify-center group-hover:scale-110 transition-all">
                             <i class='bx bx-trophy text-4xl text-white'></i>
                         </div>
                         <h3 class="text-xl font-semibold text-[#6451AB]">Join Leaderboard</h3>
                         <p class="text-sm text-gray-600">Your donation will be recorded and displayed on the leaderboard</p>
+                    </div>
+                    
+                    <div class="flex items-center">
+                        <i class='bx bx-right-arrow-alt text-3xl text-[#6451AB] hidden md:block'></i>
+                        <i class='bx bx-down-arrow-alt text-3xl text-[#6451AB] block md:hidden'></i>
+                    </div>
+
+                    <div class="w-lg bg-white rounded-xl shadow-lg overflow-hidden">
+                        <div class="bg-gradient-to-br from-[#806699] to-[#6451AB] p-4">
+                            <h3 class="text-xl font-bold text-white text-center">Top Supporters</h3>
+                        </div>
+                        <div class="divide-y divide-gray-200">
+                            <div class="flex items-center justify-between p-4 hover:bg-gray-50 transition-colors">
+                                <div class="flex items-center gap-4">
+                                    <img src="https://upload-os-bbs.hoyolab.com/upload/2025/01/14/256651796/b78c1d2ed8c05bba57e2735d23329975_3892500857571519465.webp?x-oss-process=image%2Fresize%2Cs_1000%2Fauto-orient%2C0%2Finterlace%2C1%2Fformat%2Cwebp%2Fquality%2Cq_70" alt="Madam Herta" class="w-12 aspect-square rounded-full object-cover object-center">
+                                    <span class="font-medium">Madam Herta</span>
+                                </div>
+                                <span class="text-[#6451AB] font-bold">5.5 ETH</span>
+                            </div>
+                            <div class="flex items-center justify-between p-4 hover:bg-gray-50 transition-colors">
+                                <div class="flex items-center gap-4">
+                                    <img src="https://i.pinimg.com/736x/56/f0/da/56f0daadd0102bf51ab7bfcd9df80526.jpg" alt="Firefly" class="w-12 rounded-full object-cover">
+                                    <span class="font-medium">Firefly</span>
+                                </div>
+                                <span class="text-[#6451AB] font-bold">3.2 ETH</span>
+                            </div>
+                            <div class="flex items-center justify-between p-4 hover:bg-gray-50 transition-colors">
+                                <div class="flex items-center gap-4">
+                                    <img src="https://i.pinimg.com/736x/b4/b1/b0/b4b1b065c3e6c5c3978bc21dcacc7b39.jpg" alt="Firefly" class="w-12 rounded-full object-cover">
+                                    <span class="font-medium">Silver Wolf</span>
+                                </div>
+                                <span class="text-[#6451AB] font-bold">2.1 ETH</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -209,8 +247,12 @@
                 <li class="flex items-center gap-2"><i class='bx bxl-discord'></i> Discord</li>
                 <li class="flex items-center gap-2"><i class='bx bxl-github'></i> Github</li>
             </ul>
-            <p class="text-sm font-light text-right">© 2025 Hertanate. All rights reserved.</p>
+            <p class="text-sm font-light text-right">© <span id="date"></span> Hertanate. All rights reserved.</p>
         </div>
     </footer>
+    
+    <script>
+        document.getElementById('date').innerHTML = new Date().getFullYear();
+    </script>
 </body>
 </html>

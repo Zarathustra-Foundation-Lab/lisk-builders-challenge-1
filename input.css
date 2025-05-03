@@ -6,6 +6,34 @@
     --color-light: #806699;
     --color-primary: #6451AB;
     --color-darker: #130C1E;
+
+    --animate-floating: floating 3s ease-in-out infinite;
+
+    --animate-delay-floating: delay-floating 4s ease-in-out infinite;
+
+    @keyframes floating {
+        0% {
+            transform: translateY(0);
+        }
+        50% {
+            transform: translateY(-15px);
+        }
+        100% {
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes delay-floating {
+        0% {
+            transform: translateY(0);
+        }
+        50% {
+            transform: translateY(-15px);
+        }
+        100% {
+            transform: translateY(0);
+        }
+    }
 }
 
 @layer base {
