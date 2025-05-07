@@ -90,7 +90,7 @@ contract HertanateDonate {
         address _creator,
         uint256 _amount,
         string calldata _message
-    ) external {
+    ) external payable {
         require(creators[_creator].isActive, "Creator not found");
         require(_amount > 0, "Amount must be positive");
 
