@@ -7,6 +7,12 @@ const nextConfig: NextConfig = {
       {
         hostname: "upload.wikimedia.org",
       },
+      {
+        hostname: "placehold.co",
+      },
+      {
+        hostname: "upload-os-bbs.hoyolab.com",
+      },
     ],
   },
 };

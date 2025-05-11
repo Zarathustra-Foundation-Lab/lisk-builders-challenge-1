@@ -24,129 +24,51 @@ export default function SignUpPage() {
           </p>
         </div>
 
-        <div className="flex flex-col gap-8">
-          <p className="text-lg font-medium flex gap-2 items-center">
-            <span className="text-base bg-gradient-to-r from-primary to-[#d33f6e] text-white font-medium px-2 rounded-full">
-              1
-            </span>
-            Connect Wallet
-          </p>
-          <div className="relative z-10 group">
-            <Image
-              width={100}
-              height={100}
-              src="/herta_hold_hat.gif"
-              alt="Herta Pointing To You"
-              className="w-12 -top-7 group-hover:-top-8 transition-all left-0 absolute -z-10"
-            />
-            <button className="w-full mt-4 px-4 py-3 bg-gradient-to-r from-primary to-[#d33f6e] text-white rounded-lg font-medium shadow-lg hover:shadow-primary/50 transition-all group-hover:-translate-y-1 flex items-center justify-center gap-2">
-              <BiWallet className="bx bx-wallet text-xl"></BiWallet>
+        <div className="gap-8  flex flex-col">
+          {/* step 1 */}
+          <div className="flex flex-col gap-8">
+            <p className="text-lg font-medium flex gap-2 items-center">
+              <span className="text-base bg-gradient-to-r from-primary to-[#d33f6e] text-white font-medium px-2 rounded-full">
+                1
+              </span>
               Connect Wallet
-            </button>
+            </p>
+            <div className="relative z-10 group">
+              <Image
+                width={100}
+                height={100}
+                src="/herta_hold_hat.gif"
+                alt="Herta Pointing To You"
+                className="w-12 -top-7 group-hover:-top-8 transition-all left-0 absolute -z-10"
+              />
+              <button className="w-full mt-4 px-4 py-3 bg-gradient-to-r from-primary to-[#d33f6e] text-white rounded-lg font-medium shadow-lg hover:shadow-primary/50 transition-all group-hover:-translate-y-1 flex items-center justify-center gap-2">
+                <BiWallet className="bx bx-wallet text-xl"></BiWallet>
+                Connect Wallet
+              </button>
+            </div>
           </div>
-        </div>
 
-        <div>
-          <p className="text-lg font-medium flex gap-2 items-center">
-            <span className="text-base bg-gradient-to-r from-primary to-[#d33f6e] text-white font-medium px-2 rounded-full">
-              2
-            </span>
-            Fill Details
-            <Image
-              height={100}
-              width={100}
-              src="/herta_pointing.webp"
-              alt="Herta Pointing To You"
-              className="w-12"
-            />
-          </p>
-          <form className="w-full mt-4 flex flex-col gap-4">
-            <div className="flex flex-col gap-2">
-              <label className="text-sm font-medium text-gray-600">
-                Username
-              </label>
-              <input
-                type="text"
-                placeholder="Enter your username"
-                className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-primary disabled:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-75 disabled:select-none"
+          {/* step 2 */}
+          <div>
+            <p className="text-lg font-medium flex gap-2 items-center">
+              <span className="text-base bg-gradient-to-r from-primary to-[#d33f6e] text-white font-medium px-2 rounded-full">
+                2
+              </span>
+              Fill Details
+              <Image
+                height={100}
+                width={100}
+                src="/herta_pointing.webp"
+                alt="Herta Pointing To You"
+                className="w-12"
               />
-            </div>
-            <div className="flex flex-col gap-2">
-              <label className="text-sm font-medium text-gray-600">Name</label>
-              <input
-                type="text"
-                placeholder="Enter your name"
-                className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-primary disabled:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-75 disabled:select-none"
-              />
-            </div>
-            <div className="flex flex-col gap-2">
-              <label className="text-sm font-medium text-gray-600">Bio</label>
-              <textarea
-                placeholder="Tell us about yourself!"
-                className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-primary resize-none h-24 disabled:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-75 disabled:select-none"
-              ></textarea>
-            </div>
-            <div className="flex flex-col gap-2">
-              <label className="text-sm font-medium text-gray-600">
-                Profile Photo
-              </label>
-              <label className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-primary cursor-not-allowed hover:bg-gray-50 flex items-center justify-center gap-2 bg-gray-100 opacity-75 select-none">
-                <BiImageAdd className="bx bx-image-add text-xl text-gray-500"></BiImageAdd>
-                <span className="text-gray-500">Choose Image</span>
-                <input type="file" accept="image/*" className="hidden" />
-              </label>
-            </div>
-            <div className="flex flex-col gap-2">
-              <label className="text-sm font-medium text-gray-600">
-                Social Media
-              </label>
-              <div className="w-full px-4 py-2 border border-gray-200 rounded-lg focus-within:border-primary flex items-center gap-2 disabled:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-75 disabled:select-none">
-                <BiLogoFacebook className="bx bxl-facebook text-xl text-primary"></BiLogoFacebook>
-                <input
-                  type="url"
-                  placeholder="Facebook profile link"
-                  className="w-full focus:outline-none bg-transparent"
-                />
-              </div>
-              <div className="w-full px-4 py-2 border border-gray-200 rounded-lg focus-within:border-primary flex items-center gap-2 disabled:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-75 disabled:select-none">
-                <BiLogoInstagram className="bx bxl-instagram text-xl text-primary"></BiLogoInstagram>
-                <input
-                  type="url"
-                  placeholder="Instagram profile link"
-                  className="w-full focus:outline-none bg-transparent"
-                />
-              </div>
-              <div className="w-full px-4 py-2 border border-gray-200 rounded-lg focus-within:border-primary flex items-center gap-2 disabled:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-75 disabled:select-none">
-                <BiLogoTwitter className="bx bxl-twitter text-xl text-primary"></BiLogoTwitter>
-                <input
-                  type="url"
-                  placeholder="Twitter profile link"
-                  className="w-full focus:outline-none bg-transparent"
-                />
-              </div>
-              <div className="w-full px-4 py-2 border border-gray-200 rounded-lg focus-within:border-primary flex items-center gap-2 disabled:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-75 disabled:select-none">
-                <BiLogoYoutube className="bx bxl-youtube text-xl text-primary"></BiLogoYoutube>
-                <input
-                  type="url"
-                  placeholder="Youtube channel link"
-                  className="w-full focus:outline-none bg-transparent"
-                />
-              </div>
-              <div className="flex flex-col gap-2 mt-2">
-                <label className="text-sm font-medium text-gray-600">
-                  Additional Link
-                </label>
-                <div className="w-full px-4 py-2 border border-gray-200 rounded-lg focus-within:border-primary flex items-center gap-2 disabled:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-75 disabled:select-none">
-                  <BiLink className="bx bx-link text-xl text-primary"></BiLink>
-                  <input
-                    type="url"
-                    placeholder="Your website or other social media"
-                    className="w-full focus:outline-none bg-transparent"
-                  />
-                </div>
-                {/* <!-- bisa nambah lagi aja disini kalau user bisa nambah link lagi --> */}
-              </div>
-              <div className="relative z-10 group mt-8">
+            </p>
+            <form className="w-full mt-4 grid grid-cols-1 lg:grid-cols-2  gap-4">
+              <CreatorInformation />
+
+              <SocialsField />
+
+              <div className="relative z-10 group lg:col-span-2">
                 <Image
                   height={100}
                   width={100}
@@ -158,9 +80,106 @@ export default function SignUpPage() {
                   Sign Up
                 </button>
               </div>
-            </div>
-          </form>
+            </form>
+          </div>
         </div>
+      </div>
+    </div>
+  );
+}
+
+function CreatorInformation() {
+  return (
+    <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-2">
+        <label className="text-sm font-medium text-gray-600">Username</label>
+        <input
+          type="text"
+          placeholder="Enter your username"
+          className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-primary disabled:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-75 disabled:select-none"
+        />
+      </div>
+
+      <div className="flex flex-col gap-2">
+        <label className="text-sm font-medium text-gray-600">Name</label>
+        <input
+          type="text"
+          placeholder="Enter your name"
+          className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-primary disabled:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-75 disabled:select-none"
+        />
+      </div>
+
+      <div className="flex flex-col gap-2">
+        <label className="text-sm font-medium text-gray-600">Bio</label>
+        <textarea
+          placeholder="Tell us about yourself!"
+          className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-primary resize-none h-24 disabled:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-75 disabled:select-none"
+        ></textarea>
+      </div>
+
+      <div className="flex flex-col gap-2">
+        <label className="text-sm font-medium text-gray-600">
+          Profile Photo
+        </label>
+        <label className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-primary cursor-not-allowed hover:bg-gray-50 flex items-center justify-center gap-2 bg-gray-100 opacity-75 select-none">
+          <BiImageAdd className="bx bx-image-add text-xl text-gray-500"></BiImageAdd>
+          <span className="text-gray-500">Choose Image</span>
+          <input type="file" accept="image/*" className="hidden" />
+        </label>
+      </div>
+    </div>
+  );
+}
+
+function SocialsField() {
+  return (
+    <div className="flex flex-col gap-2">
+      <label className="text-sm font-medium text-gray-600">Social Media</label>
+      <div className="w-full px-4 py-2 border border-gray-200 rounded-lg focus-within:border-primary flex items-center gap-2 disabled:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-75 disabled:select-none">
+        <BiLogoFacebook className="bx bxl-facebook text-xl text-primary"></BiLogoFacebook>
+        <input
+          type="url"
+          placeholder="Facebook profile link"
+          className="w-full focus:outline-none bg-transparent"
+        />
+      </div>
+      <div className="w-full px-4 py-2 border border-gray-200 rounded-lg focus-within:border-primary flex items-center gap-2 disabled:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-75 disabled:select-none">
+        <BiLogoInstagram className="bx bxl-instagram text-xl text-primary"></BiLogoInstagram>
+        <input
+          type="url"
+          placeholder="Instagram profile link"
+          className="w-full focus:outline-none bg-transparent"
+        />
+      </div>
+      <div className="w-full px-4 py-2 border border-gray-200 rounded-lg focus-within:border-primary flex items-center gap-2 disabled:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-75 disabled:select-none">
+        <BiLogoTwitter className="bx bxl-twitter text-xl text-primary"></BiLogoTwitter>
+        <input
+          type="url"
+          placeholder="Twitter profile link"
+          className="w-full focus:outline-none bg-transparent"
+        />
+      </div>
+      <div className="w-full px-4 py-2 border border-gray-200 rounded-lg focus-within:border-primary flex items-center gap-2 disabled:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-75 disabled:select-none">
+        <BiLogoYoutube className="bx bxl-youtube text-xl text-primary"></BiLogoYoutube>
+        <input
+          type="url"
+          placeholder="Youtube channel link"
+          className="w-full focus:outline-none bg-transparent"
+        />
+      </div>
+      <div className="flex flex-col gap-2 mt-2">
+        <label className="text-sm font-medium text-gray-600">
+          Additional Link
+        </label>
+        <div className="w-full px-4 py-2 border border-gray-200 rounded-lg focus-within:border-primary flex items-center gap-2 disabled:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-75 disabled:select-none">
+          <BiLink className="bx bx-link text-xl text-primary"></BiLink>
+          <input
+            type="url"
+            placeholder="Your website or other social media"
+            className="w-full focus:outline-none bg-transparent"
+          />
+        </div>
+        {/* <!-- bisa nambah lagi aja disini kalau user bisa nambah link lagi --> */}
       </div>
     </div>
   );

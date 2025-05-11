@@ -26,7 +26,7 @@ export default function HowItWorkSection() {
 
         {/* leader board */}
         <div className="hidden lg:block w-fit mx-auto">
-          <LeaderBoardCard />
+          <LeaderBoardCard type="dummy" title="Top Supporters" />
         </div>
       </div>
     </div>

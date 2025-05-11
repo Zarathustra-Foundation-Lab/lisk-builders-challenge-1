@@ -1,8 +1,8 @@
 import FeatureSection from "@/components/layouts/Features";
-import Footer from "@/components/Footer";
+import Footer from "@/components/modules/Footer";
 import HeroSection from "@/components/layouts/Hero";
 import HowItWorkSection from "@/components/layouts/HowWork";
-import Navbar from "@/components/Navbar";
+import Navbar from "@/components/modules/Navbar";
 import TierSection from "@/components/layouts/Tier";
 
 export default function Home() {
