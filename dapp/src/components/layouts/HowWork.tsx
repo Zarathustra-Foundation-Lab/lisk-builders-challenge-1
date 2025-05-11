@@ -5,7 +5,7 @@ import LeaderBoardCard from "../modules/LeaderBoard";
 
 export default function HowItWorkSection() {
   return (
-    <div className="w-full h-full lg:h-screen py-20 flex flex-col justify-center px-8 gap-4 bg-[#fef7ff]">
+    <div className="w-full h-full lg:h-[80vh] py-20 md:py-12 flex flex-col justify-center px-8 gap-4 bg-[#fef7ff]">
       <h2 className="text-3xl lg:text-4xl font-bold text-[#6451AB] mt-20 mx-auto lg:mx-10">
         How It Works
       </h2>

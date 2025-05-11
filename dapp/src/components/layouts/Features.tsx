@@ -3,8 +3,8 @@ import React from "react";
 
 export default function FeatureSection() {
   return (
-    <div className="w-full h-full lg:h-screen flex items-center px-8 py-20 bg-[#fef7ff] ">
-      <div className=" lg:h-max grid grid-cols-1 grid-flow-row md:grid-cols-3 gap-8 lg:gap-5 ">
+    <div className="w-full h-full lg:h-[80vh] flex items-center px-8 py-20 md:py-12 bg-[#fef7ff] ">
+      <div className="lg:h-max grid grid-cols-1 grid-flow-row md:grid-cols-3 gap-8 lg:gap-5 place-items-center place-content-center">
         {DATA.map((item, idx) => {
           return (
             <FeatureCard

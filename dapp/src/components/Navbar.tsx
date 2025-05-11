@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export default function Navbar() {
   return (
-    <header className="w-full pt-2 bg-white">
+    <header className="w-full pt-2 bg-white z-50">
       <nav className="flex justify-between items-center px-8 py-4 text-black">
         <div className="font-semibold md:text-xl">
           <Image

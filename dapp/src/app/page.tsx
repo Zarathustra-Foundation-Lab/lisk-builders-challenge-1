@@ -7,16 +7,14 @@ import TierSection from "@/components/layouts/Tier";
 
 export default function Home() {
   return (
-    <div className="">
+    <div className="overflow-x-hidden w-full">
       <Navbar />
 
       {/* CONTENT START */}
-      {/* <div className="w-full h-dvh snap-y snap-mandatory overflow-y-auto bg-primary/5"> */}
       <HeroSection />
       <FeatureSection />
       <HowItWorkSection />
       <TierSection />
-      {/* </div> */}
       {/* CONTENT END */}
 
       <Footer />
