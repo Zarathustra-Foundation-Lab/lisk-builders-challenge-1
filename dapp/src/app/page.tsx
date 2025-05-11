@@ -11,12 +11,12 @@ export default function Home() {
       <Navbar />
 
       {/* CONTENT START */}
-      <div className="w-full h-dvh snap-y snap-mandatory overflow-y-auto bg-primary/5">
-        <HeroSection />
-        <FeatureSection />
-        <HowItWorkSection />
-        <TierSection />
-      </div>
+      {/* <div className="w-full h-dvh snap-y snap-mandatory overflow-y-auto bg-primary/5"> */}
+      <HeroSection />
+      <FeatureSection />
+      <HowItWorkSection />
+      <TierSection />
+      {/* </div> */}
       {/* CONTENT END */}
 
       <Footer />

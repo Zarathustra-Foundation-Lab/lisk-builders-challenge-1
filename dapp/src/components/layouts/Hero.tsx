@@ -2,26 +2,21 @@ import Image from "next/image";
 
 export default function HeroSection() {
   return (
-    <div className="section bg-[#ffeff9fa]" id="hero">
-      <div className="md:w-1/2 max-md:h-full flex flex-col justify-center max-md:items-center gap-6">
+    <div
+      className="w-full h-[80vh] lg:h-screen flex items-center px-8 bg-[#ffeff9fa] z-20"
+      id="hero"
+    >
+      <div className="w-full lg:w-1/2 max-md:h-full flex flex-col justify-center max-md:items-center gap-6">
         <div className="">
-          <h1 className="max-md:hidden text-2xl md:text-5xl font-semibold">
-            Hertanate <br />
-            <span className="bg-gradient-to-r from-[#806699] to-[#846ae4] text-transparent bg-clip-text max-md:text-center">
-              Decentralized
-            </span>
-            <br />
-            Donation for Creators
-          </h1>
-          <h1 className="md:hidden text-5xl font-semibold">Hertanate</h1>
-          <p className="md:hidden text-xl font-medium max-md:text-center">
+          <h1 className="text-3xl md:text-5xl font-semibold text-center md:text-left">
+            Hertanate <br className="hidden md:block" />
             <span className="bg-gradient-to-r from-[#806699] to-[#846ae4] text-transparent bg-clip-text">
-              Decentralized
+              Decentralized{"\u00A0"}
             </span>
-            <br />
-            Donation for Creators
-          </p>
-          <p className="text-sm md:text-xl font-light text-gray-600 text-center md:text-justify">
+            <span className="md:hidden">Donation</span>
+            <span className="hidden md:inline">Donation for Creators</span>
+          </h1>
+          <p className="text-base md:text-xl font-light text-gray-600 text-center md:text-left">
             Dukung kreator favoritmu dengan transparansi dan teknologi
             blockchain
           </p>
@@ -41,8 +36,7 @@ export default function HeroSection() {
         </div>
       </div>
 
-      {/* <!-- Card --> */}
-      <div className="w-full max-w-fit mx-auto max-md:hidden md:w-1/2 max-md:order-first flex justify-center items-center relative">
+      <div className="w-full max-w-fit mx-auto hidden md:w-1/2 max-md:order-first lg:flex justify-center items-center relative">
         {/* herta */}
         <div className="max-md:hidden absolute right-30 -bottom-15 z-10">
           <Image

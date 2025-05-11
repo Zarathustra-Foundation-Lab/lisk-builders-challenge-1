@@ -3,8 +3,8 @@ import React from "react";
 
 export default function FeatureSection() {
   return (
-    <div className="section bg-[#fef7ff]">
-      <div className="max-md:h-full grid grid-cols-1 grid-flow-row md:grid-cols-3 md:gap-8 gap-2 max-md:py-20">
+    <div className="w-full h-full lg:h-screen flex items-center px-8 py-20 bg-[#fef7ff] ">
+      <div className=" lg:h-max grid grid-cols-1 grid-flow-row md:grid-cols-3 gap-8 lg:gap-5 ">
         {DATA.map((item, idx) => {
           return (
             <FeatureCard
@@ -28,7 +28,7 @@ interface FeatureProp {
 
 const FeatureCard = (props: FeatureProp) => {
   return (
-    <div className="bg-gradient-to-br max-md:h-max from-[#806699]/10 to-[#6451AB]/10 p-4 md:p-8 rounded-2xl backdrop-blur-sm border border-white/10 hover:border-[#6451AB]/50 transition-all group">
+    <div className="bg-gradient-to-br max-md:h-max from-[#806699]/10 to-[#6451AB]/10 p-4 md:p-8 rounded-2xl lg:backdrop-blur-sm border border-white/10 hover:border-[#6451AB]/50 transition-all group">
       <div className="flex flex-col items-center text-center gap-4">
         <div className="w-12 h-12 md:w-16 md:h-16 rounded-xl flex items-center justify-center group-hover:scale-110 transition-all">
           <Image

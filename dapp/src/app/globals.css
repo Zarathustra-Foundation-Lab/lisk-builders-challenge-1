@@ -72,6 +72,10 @@
 }
 
 @layer components {
+  /* .section {
+    @apply w-full h-dvh snap-center flex items-center px-8;
+  } */
+
   .section {
     @apply w-full h-dvh snap-center flex items-center px-8;
   }

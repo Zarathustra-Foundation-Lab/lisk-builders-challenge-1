@@ -2,7 +2,7 @@ import { BiMedal, BiCrown, BiStar, BiDiamond } from "react-icons/bi";
 
 export default function TierSection() {
   return (
-    <div className="section bg-[#fef7ff]">
+    <div className="w-full h-screen py-20 bg-[#fef7ff] flex justify-center items-center">
       <div className="flex flex-col items-center w-full md:space-y-12 max-md:py-20">
         <h2 className="text-4xl font-bold text-[#6451AB]">Tier Rewards</h2>
 

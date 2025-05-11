@@ -2,9 +2,8 @@ import Image from "next/image";
 
 export default function Navbar() {
   return (
-    <header className="w-full fixed top-0 left-0 z-50 pt-2">
+    <header className="w-full pt-2 bg-white">
       <nav className="flex justify-between items-center px-8 py-4 text-black">
-        {/* <div className="font-semibold md:text-xl">Hertanate</div> */}
         <div className="font-semibold md:text-xl">
           <Image
             width={200}
@@ -15,9 +14,22 @@ export default function Navbar() {
           />
         </div>
 
-        <button className="w-fit px-4 py-3 max-md:text-sm bg-[#6451AB] text-white rounded-lg font-medium shadow-lg hover:shadow-[#6451AB]/50 transition-all hover:-translate-y-1">
-          Connect Wallet
-        </button>
+        <div className="flex items-center gap-x-14">
+          {/* <ul className="flex gap-x-8">
+            <li className="font-montserrat text-xl font-medium hover:cursor-pointer hover:text-primary/70 transition-colors">
+              Profile
+            </li>
+            <li className="font-montserrat text-xl font-medium hover:cursor-pointer hover:text-primary/70 transition-colors">
+              Support
+            </li>
+            <li className="font-montserrat text-xl font-medium hover:cursor-pointer hover:text-primary/70 transition-colors">
+              Developer
+            </li>
+          </ul> */}
+          <button className="w-fit px-4 py-3 max-md:text-sm bg-[#6451AB] text-white rounded-lg font-medium shadow-lg hover:shadow-[#6451AB]/50 transition-all hover:-translate-y-1">
+            Connect Wallet
+          </button>
+        </div>
       </nav>
     </header>
   );
