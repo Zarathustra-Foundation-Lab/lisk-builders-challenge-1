@@ -3,18 +3,15 @@ pragma solidity ^0.8.28;
 
 import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import {SafeERC20} from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
+import {ERC2771Context} from "@openzeppelin/contracts/metatx/ERC2771Context.sol";
 
-contract HertanateDonate {
-    // using SafeERC20 for IERC20;
+contract HertanateDonate is ERC2771Context {
     using SafeERC20 for IERC20;
 
-    // core
     address payable[] public owners;
-    // note: untuk fee
-    uint8 public fee = 5; // for 5% fee
-    IERC20 public token;
+    uint8 public fee = 5; // 5% fee
+    address private _trustedForwarder;
 
-    // user
     struct CreatorDetail {
         string image;
         string name;
@@ -29,11 +26,26 @@ contract HertanateDonate {
         bool isActive;
     }
 
-    // Creator tracking
     mapping(address => Creator) public creators;
     mapping(string => bool) public usernames;
+    mapping(address => bool) public allowedTokens;
 
     event CreatorRegistered(address indexed creator, string username);
+    event CreatorProfileUpdated(
+        address indexed creator,
+        string name,
+        string image,
+        string bio,
+        string socials,
+        uint256 timestamp
+    );
+    event UsernameChanged(
+        address indexed creator,
+        string oldUsername,
+        string newUsername,
+        uint256 timestamp
+    );
+
     event DonationSent(
         address indexed from,
         address indexed creator,
@@ -43,36 +55,44 @@ contract HertanateDonate {
         uint256 timestamp
     );
 
-    // constructor
-    constructor(address _token, address[] memory _addingOwner) {
-        require(_token != address(0), "Invalid token");
+    event AllowedTokenAdded(address token);
 
-        // push the initial owner
-        owners.push(payable(msg.sender));
+    constructor(
+        address initialForwarder,
+        address[] memory _initialAllowedTokens,
+        address[] memory _initialOwners
+    ) ERC2771Context(initialForwarder) {
+        require(_initialOwners.length > 0, "At least one owner");
 
-        // push the additional owner
-        for (uint i = 0; i < _addingOwner.length; i++) {
-            owners.push(payable(_addingOwner[i]));
+        // set first inital trustedForwarder
+        _trustedForwarder = initialForwarder;
+
+        for (uint i = 0; i < _initialOwners.length; i++) {
+            require(_initialOwners[i] != address(0), "Invalid owner");
+            owners.push(payable(_initialOwners[i]));
         }
 
-        // make instance to connect IDRX token with ERC20
-        token = IERC20(_token);
+        for (uint i = 0; i < _initialAllowedTokens.length; i++) {
+            require(_initialAllowedTokens[i] != address(0), "Invalid token");
+            allowedTokens[_initialAllowedTokens[i]] = true;
+        }
     }
 
-    // Creator registration
     function signupCreator(
         string calldata _username,
         string calldata _name,
+        string calldata _image,
         string calldata _bio,
         string calldata _socials
     ) external {
-        require(!creators[msg.sender].isActive, "Already registered");
+        require(bytes(_username).length > 0, "Username cannot be empty");
+        require(!creators[_msgSender()].isActive, "Already registered");
         require(!usernames[_username], "Username taken");
 
-        creators[msg.sender] = Creator({
+        creators[_msgSender()] = Creator({
             username: _username,
             detail: CreatorDetail({
-                image: "",
+                image: _image,
                 name: _name,
                 bio: _bio,
                 socials: _socials
@@ -82,39 +102,54 @@ contract HertanateDonate {
         });
 
         usernames[_username] = true;
-        emit CreatorRegistered(msg.sender, _username);
+        emit CreatorRegistered(_msgSender(), _username);
     }
 
-    // Donation function
     function donateToCreator(
         address _creator,
         uint256 _amount,
+        address _token,
         string calldata _message
     ) external payable {
         require(creators[_creator].isActive, "Creator not found");
         require(_amount > 0, "Amount must be positive");
+        require(allowedTokens[_token], "Token not supported");
 
-        // Distribute fee and get creator amount
-        (uint256 creatorAmount, uint256 feeAmount) = _distributeFee(_amount);
+        // get ERC20 instance token
+        IERC20 token = IERC20(_token);
 
-        // Transfer remaining to creator
-        token.safeTransferFrom(msg.sender, _creator, creatorAmount);
+        // Transfer all amount to contract
+        token.safeTransferFrom(_msgSender(), address(this), _amount);
 
-        // Update stats
-        creators[_creator].totalReceived += creatorAmount; // Track amount after fee
+        // Calculate fee & split
+        uint256 feeAmount = (_amount * fee) / 100;
+        uint256 creatorAmount = _amount - feeAmount;
 
-        // Emit event with both amounts
+        // Transfer to creator
+        token.safeTransfer(_creator, creatorAmount);
+
+        // Distribute fee to owners
+        uint256 share = feeAmount / owners.length;
+        uint256 remainder = feeAmount % owners.length;
+
+        for (uint i = 0; i < owners.length; i++) {
+            uint256 amount = i == 0 ? share + remainder : share;
+            token.safeTransfer(owners[i], amount);
+        }
+
+        // Add totalRecieved creator
+        creators[_creator].totalReceived += creatorAmount;
+
         emit DonationSent(
-            msg.sender,
+            _msgSender(),
             _creator,
-            creatorAmount,
+            _amount,
             feeAmount,
             _message,
             block.timestamp
         );
     }
 
-    // Get creator info
     function getCreator(
         address _creator
     )
@@ -130,7 +165,6 @@ contract HertanateDonate {
     {
         require(creators[_creator].isActive, "Creator not found");
         Creator storage c = creators[_creator];
-
         return (
             c.username,
             c.detail.name,
@@ -140,31 +174,83 @@ contract HertanateDonate {
         );
     }
 
-    // Internal fee distribution function
-    function _distributeFee(
-        uint256 _amount
-    ) internal returns (uint256 _creatorAmount, uint256 _feeAmount) {
-        require(fee > 0, "Fee must upper than 0");
+    function editCreatorProfile(
+        string calldata _name,
+        string calldata _image,
+        string calldata _bio,
+        string calldata _socials
+    ) external {
+        require(creators[_msgSender()].isActive, "Not registered as creator");
 
-        uint256 feeAmount = (_amount * fee) / 100;
-        uint256 creatorAmount = _amount - feeAmount;
+        Creator storage creator = creators[_msgSender()];
+        creator.detail.name = _name;
+        creator.detail.image = _image;
+        creator.detail.bio = _bio;
+        creator.detail.socials = _socials;
 
-        if (feeAmount > 0) {
-            uint256 feePerOwner = feeAmount / owners.length;
-            uint256 remainder = feeAmount % owners.length;
-
-            for (uint i = 0; i < owners.length; i++) {
-                uint256 amount = i == 0 ? feePerOwner + remainder : feePerOwner;
-                token.safeTransferFrom(msg.sender, owners[i], amount);
-            }
-        }
-        return (creatorAmount, feeAmount);
+        emit CreatorProfileUpdated(
+            _msgSender(),
+            _name,
+            _image,
+            _bio,
+            _socials,
+            block.timestamp
+        );
     }
 
-    // Function to update fee percentage
+    function changeUsername(string calldata _newUsername) external {
+        require(bytes(_newUsername).length > 0, "Username cannot be empty");
+        require(creators[_msgSender()].isActive, "Not registered as creator");
+        require(!usernames[_newUsername], "Username already taken");
+
+        // Remove old username
+        string memory oldUsername = creators[_msgSender()].username;
+        usernames[oldUsername] = false;
+
+        // Set new username
+        creators[_msgSender()].username = _newUsername;
+        usernames[_newUsername] = true;
+
+        emit UsernameChanged(
+            _msgSender(),
+            oldUsername,
+            _newUsername,
+            block.timestamp
+        );
+    }
+
+    function addAllowedToken(address _token) external {
+        require(_msgSender() == owners[0], "Only owner can add token");
+        require(_token != address(0), "Invalid address");
+        allowedTokens[_token] = true;
+
+        emit AllowedTokenAdded(_token);
+    }
+
     function setFee(uint8 _newFee) external {
-        require(msg.sender == owners[0], "Only owner");
-        require(_newFee > 0 && _newFee < 100, "Fee too high");
+        require(_msgSender() == owners[0], "Only owner can set fee");
+        require(_newFee > 0 && _newFee < 100, "Invalid fee range");
         fee = _newFee;
+    }
+
+    function setTrustedForwarder(address newForwarder) external {
+        require(_msgSender() == owners[0], "Only owner can change forwarder");
+        require(newForwarder != address(0), "Invalid address");
+        _trustedForwarder = newForwarder;
+    }
+
+    // just overwrite
+    function isTrustedForwarder(
+        address forwarder
+    ) public view override returns (bool) {
+        return forwarder == _trustedForwarder;
+    }
+
+    function _msgSender() internal view override returns (address) {
+        return ERC2771Context._msgSender();
+    }
+
+    function _msgData() internal view override returns (bytes calldata) {
+        return ERC2771Context._msgData();
     }
 }
