@@ -88,6 +88,12 @@ export const HertanateABI = [
         type: "address",
       },
       {
+        indexed: true,
+        internalType: "address",
+        name: "token",
+        type: "address",
+      },
+      {
         indexed: false,
         internalType: "uint256",
         name: "amount",
@@ -130,7 +136,7 @@ export const HertanateABI = [
       {
         indexed: false,
         internalType: "address",
-        name: "oldForwader",
+        name: "oldForwarder",
         type: "address",
       },
       {
@@ -196,28 +202,6 @@ export const HertanateABI = [
     type: "function",
   },
   {
-    inputs: [{ internalType: "address", name: "", type: "address" }],
-    name: "creators",
-    outputs: [
-      { internalType: "string", name: "username", type: "string" },
-      {
-        components: [
-          { internalType: "string", name: "image", type: "string" },
-          { internalType: "string", name: "name", type: "string" },
-          { internalType: "string", name: "bio", type: "string" },
-          { internalType: "string", name: "socials", type: "string" },
-        ],
-        internalType: "struct HertanateDonate.CreatorDetail",
-        name: "detail",
-        type: "tuple",
-      },
-      { internalType: "uint256", name: "totalReceived", type: "uint256" },
-      { internalType: "bool", name: "isActive", type: "bool" },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
     inputs: [
       { internalType: "address", name: "_creator", type: "address" },
       { internalType: "uint256", name: "_amount", type: "uint256" },
@@ -226,7 +210,7 @@ export const HertanateABI = [
     ],
     name: "donateToCreator",
     outputs: [],
-    stateMutability: "payable",
+    stateMutability: "nonpayable",
     type: "function",
   },
   {
@@ -250,13 +234,60 @@ export const HertanateABI = [
   },
   {
     inputs: [{ internalType: "address", name: "_creator", type: "address" }],
-    name: "getCreator",
+    name: "getCreatorByAddress",
     outputs: [
-      { internalType: "string", name: "username", type: "string" },
-      { internalType: "string", name: "name", type: "string" },
-      { internalType: "string", name: "bio", type: "string" },
-      { internalType: "string", name: "socials", type: "string" },
-      { internalType: "uint256", name: "totalReceived", type: "uint256" },
+      {
+        components: [
+          { internalType: "address", name: "creatorAddress", type: "address" },
+          { internalType: "string", name: "username", type: "string" },
+          {
+            components: [
+              { internalType: "string", name: "image", type: "string" },
+              { internalType: "string", name: "name", type: "string" },
+              { internalType: "string", name: "bio", type: "string" },
+              { internalType: "string", name: "socials", type: "string" },
+            ],
+            internalType: "struct HertanateContract.CreatorDetail",
+            name: "detail",
+            type: "tuple",
+          },
+          { internalType: "uint256", name: "totalReceived", type: "uint256" },
+          { internalType: "bool", name: "isActive", type: "bool" },
+        ],
+        internalType: "struct HertanateContract.Creator",
+        name: "",
+        type: "tuple",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "string", name: "_username", type: "string" }],
+    name: "getCreatorByUsername",
+    outputs: [
+      {
+        components: [
+          { internalType: "address", name: "creatorAddress", type: "address" },
+          { internalType: "string", name: "username", type: "string" },
+          {
+            components: [
+              { internalType: "string", name: "image", type: "string" },
+              { internalType: "string", name: "name", type: "string" },
+              { internalType: "string", name: "bio", type: "string" },
+              { internalType: "string", name: "socials", type: "string" },
+            ],
+            internalType: "struct HertanateContract.CreatorDetail",
+            name: "detail",
+            type: "tuple",
+          },
+          { internalType: "uint256", name: "totalReceived", type: "uint256" },
+          { internalType: "bool", name: "isActive", type: "bool" },
+        ],
+        internalType: "struct HertanateContract.Creator",
+        name: "",
+        type: "tuple",
+      },
     ],
     stateMutability: "view",
     type: "function",

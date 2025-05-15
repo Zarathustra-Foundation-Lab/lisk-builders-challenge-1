@@ -1,9 +1,9 @@
-import FeatureSection from "@/components/layouts/Features";
-import Footer from "@/components/modules/Footer";
-import HeroSection from "@/components/layouts/Hero";
-import HowItWorkSection from "@/components/layouts/HowWork";
 import Navbar from "@/components/modules/Navbar";
-import TierSection from "@/components/layouts/Tier";
+import Footer from "@/components/modules/Footer";
+import HeroSection from "@/components/layouts/landing/Hero";
+import FeatureSection from "@/components/layouts/landing/Features";
+import HowItWorkSection from "@/components/layouts/landing/HowWork";
+import TierSection from "@/components/layouts/landing/Tier";
 
 export default function Home() {
   return (

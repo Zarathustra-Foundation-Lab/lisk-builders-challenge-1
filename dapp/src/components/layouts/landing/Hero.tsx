@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 export default function HeroSection() {
   return (
@@ -28,9 +29,12 @@ export default function HeroSection() {
               alt="Herta Hold Hat"
               className="w-12 left-full -translate-x-1 rotate-90 group-hover: absolute -z-10"
             />
-            <button className="w-fit px-8 py-3 bg-[#6451AB] text-white rounded-lg font-medium shadow-lg hover:shadow-[#6451AB]/50 transition-all hover:-translate-y-1">
+            <Link
+              href={"/sign-up"}
+              className="w-fit px-8 py-3 bg-[#6451AB] text-white rounded-lg font-medium shadow-lg hover:shadow-[#6451AB]/50 transition-all hover:-translate-y-1"
+            >
               Get Started
-            </button>
+            </Link>
           </div>
         </div>
 

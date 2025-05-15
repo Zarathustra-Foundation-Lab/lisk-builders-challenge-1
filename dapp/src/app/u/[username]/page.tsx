@@ -2,15 +2,21 @@ import React from "react";
 
 import { BiCoin, BiHeart, BiUser } from "react-icons/bi";
 
-import _Profile from "./profile";
+import Profile from "@/components/layouts/creator/profile";
 import LeaderBoardCard from "@/components/modules/LeaderBoard";
 import Navbar from "@/components/modules/Navbar";
 
-import { getDonationLogs } from "@/utils/getDonationLogs";
 import { Address } from "viem";
 import { truncateAddress } from "@/utils/utils";
 
-export default async function CreatorPage() {
+import { getDonationLogs } from "@/utils/getDonationLogs";
+import { getCreatorByUsername } from "@/actions/hertanate.action";
+
+export default async function CreatorPage({
+  params,
+}: {
+  params: { username: string };
+}) {
   const donationLogs = await getDonationLogs();
 
   const getTotalSupporter = async () => {
@@ -45,13 +51,23 @@ export default async function CreatorPage() {
   const totalSupporter = await getTotalSupporter();
   const topSupporters = await getLeaderboard("top_supporter");
 
+  console.log(params);
+
+  // if (!creator) {
+  //   return (
+  //     <div className="h-full flex justify-center items-center">
+  //       <h2 className="font-medium text-2xl text-center">Creator Not Found</h2>
+  //     </div>
+  //   );
+  // }
+
   return (
     <>
       <div className="hidden lg:block">{/* <Navbar /> */}</div>
       <div className="w-full min-h-dvh flex justify-center bg-primary/5">
         <div className="w-full min-h-dvh flex flex-col lg:grid grid-cols-[1fr_3fr] grid-rows-1 gap-4 p-4 md:p-8">
           {/* <!-- User Profile Section & Mobile show --> */}
-          <_Profile totalSupporter={totalSupporter} />
+          <Profile totalSupporter={totalSupporter} />
 
           {/* <!-- Main Content Section & Destop Show --> */}
           <div className="flex flex-col gap-4">

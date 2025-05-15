@@ -7,18 +7,29 @@ import SocialLinks, { SocialLinks_DUMMY } from "./socials";
 
 import { Address, formatUnits } from "viem";
 import { useAccount } from "wagmi";
-import { getCreatorByAddress } from "@/actions/hertanate.action";
 
-export default function _Proflie({
-  totalSupporter = 0,
-}: {
+import { getCreatorByUsername } from "@/actions/hertanate.action";
+
+interface ProfileProps {
+  creator?: {
+    creatorAddress: `0x${string}`;
+    username: string;
+    detail: {
+      image: string;
+      name: string;
+      bio: string;
+      socials: string;
+    };
+    totalReceived: bigint;
+    isActive: boolean;
+  };
   totalSupporter: number;
-}) {
+}
+
+export default function Proflie({ totalSupporter = 0 }: ProfileProps) {
   const { address } = useAccount();
 
-  const { name, username, bio, socials, totalReceived } = getCreatorByAddress(
-    address as Address
-  );
+  const { creator } = getCreatorByUsername("");
 
   return (
     <div className="w-full bg-white rounded-lg shadow-lg p-4 h-fit">
@@ -47,16 +58,20 @@ export default function _Proflie({
             <input type="file" accept="image/*" className="hidden" />
           </label>
           <div className="text-center">
-            <h1 className="text-2xl font-bold text-darker">{name}</h1>
-            <p className="text-sm text-gray-500">@{username}</p>
+            <h1 className="text-2xl font-bold text-darker">
+              {creator?.detail.name}
+            </h1>
+            <p className="text-sm text-gray-500">@{creator?.username}</p>
           </div>
-          <h5 className=" text-sm text-center text-gray-600">{bio}</h5>
+          <h5 className=" text-sm text-center text-gray-600">
+            {creator?.detail.bio}
+          </h5>
 
           <div className="w-full flex flex-col gap-2">
             <div className="flex-1 bg-primary/5 rounded-lg p-4 text-center">
               <p className="text-sm text-gray-500">Total Donasi</p>
               <p className="text-lg font-bold text-primary">
-                {formatUnits(totalReceived, 2)} IDRX
+                {formatUnits(creator?.totalReceived ?? BigInt(0), 2)} IDRX
               </p>
             </div>
             <div className="flex-1 bg-primary/5 rounded-lg p-4 text-center">

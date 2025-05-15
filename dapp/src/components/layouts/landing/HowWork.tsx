@@ -1,7 +1,7 @@
 import Image from "next/image";
 import React from "react";
 import { BiChevronDown, BiChevronRight } from "react-icons/bi";
-import LeaderBoardCard from "../modules/LeaderBoard";
+import LeaderBoardCard from "../../modules/LeaderBoard";
 
 export default function HowItWorkSection() {
   return (
