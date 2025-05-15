@@ -24,31 +24,39 @@ export default function LeaderBoardCard(props: LeaderBoardProps) {
         </h3>
       </div>
       <div className="divide-y divide-gray-200">
-        {[0, 1, 2, 3].map((i) => {
-          return (
-            <div
-              key={i}
-              className="flex items-center justify-between p-4 hover:bg-gray-50 transition-colors"
-            >
-              <div className="flex items-center gap-4">
-                {props.data?.length && props.data[0].image ? (
-                  <Image
-                    height={100}
-                    width={100}
-                    src="https://upload-os-bbs.hoyolab.com/upload/2025/01/14/256651796/b78c1d2ed8c05bba57e2735d23329975_3892500857571519465.webp?x-oss-process=image%2Fresize%2Cs_1000%2Fauto-orient%2C0%2Finterlace%2C1%2Fformat%2Cwebp%2Fquality%2Cq_70"
-                    alt="Madam Herta"
-                    className="w-12 aspect-square rounded-full object-cover object-center"
-                  />
-                ) : (
-                  <BiUser className="bx bxs-user text-3xl text-primary bg-primary/10 p-2 h-max rounded-full"></BiUser>
-                )}
+        {props.data?.length ? (
+          props.data.map(({ key, value }, idx) => {
+            return (
+              <div
+                key={idx}
+                className="flex items-center justify-between p-4 hover:bg-gray-50 transition-colors"
+              >
+                <div className="flex items-center gap-4">
+                  {props.data?.length && props.data[0].image ? (
+                    <Image
+                      height={100}
+                      width={100}
+                      src="https://upload-os-bbs.hoyolab.com/upload/2025/01/14/256651796/b78c1d2ed8c05bba57e2735d23329975_3892500857571519465.webp?x-oss-process=image%2Fresize%2Cs_1000%2Fauto-orient%2C0%2Finterlace%2C1%2Fformat%2Cwebp%2Fquality%2Cq_70"
+                      alt="Madam Herta"
+                      className="w-12 aspect-square rounded-full object-cover object-center"
+                    />
+                  ) : (
+                    <BiUser className="bx bxs-user text-3xl text-primary bg-primary/10 p-2 h-max rounded-full"></BiUser>
+                  )}
 
-                <span className="font-medium">Madam Herta {i + 1}</span>
+                  <span className="font-medium"> {key}</span>
+                </div>
+                <span className="text-[#6451AB] font-bold">{value} IDRX</span>
               </div>
-              <span className="text-[#6451AB] font-bold">100.000.00 IDRX</span>
-            </div>
-          );
-        })}
+            );
+          })
+        ) : (
+          <div className="flex items-center justify-center text-center">
+            <h3 className="font-medium text-lg text-gray-600 pt-3">
+              No History
+            </h3>
+          </div>
+        )}
       </div>
     </div>
   );

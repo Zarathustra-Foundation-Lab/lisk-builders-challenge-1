@@ -1,17 +1,25 @@
-import Image from "next/image";
-import Link from "next/link";
+"use client";
 import React from "react";
+import Image from "next/image";
 
-import {
-  BiImageAdd,
-  BiLink,
-  BiLogoFacebook,
-  BiLogoInstagram,
-  BiLogoTwitter,
-  BiLogoYoutube,
-} from "react-icons/bi";
+import { BiImageAdd, BiLink } from "react-icons/bi";
+import SocialLinks, { SocialLinks_DUMMY } from "./socials";
 
-export default function _Proflie() {
+import { Address, formatUnits } from "viem";
+import { useAccount } from "wagmi";
+import { getCreatorByAddress } from "@/actions/hertanate.action";
+
+export default function _Proflie({
+  totalSupporter = 0,
+}: {
+  totalSupporter: number;
+}) {
+  const { address } = useAccount();
+
+  const { name, username, bio, socials, totalReceived } = getCreatorByAddress(
+    address as Address
+  );
+
   return (
     <div className="w-full bg-white rounded-lg shadow-lg p-4 h-fit">
       <div className="flex flex-col items-center gap-4">
@@ -21,12 +29,15 @@ export default function _Proflie() {
             <div className="text-center text-white"></div>
           </div>
         </div>
-        <div className="py-6 flex items-center flex-col gap-4">
+        {/* creator detail */}
+        <div className="py-6 flex items-center flex-col gap-4 w-full">
           <label className="w-32 h-32 rounded-full bg-primary/20 overflow-hidden cursor-pointer hover:bg-primary/30 transition-colors relative group">
             <Image
               width={400}
               height={100}
-              src="https://upload-os-bbs.hoyolab.com/upload/2025/01/14/256651796/b78c1d2ed8c05bba57e2735d23329975_3892500857571519465.webp?x-oss-process=image%2Fresize%2Cs_1000%2Fauto-orient%2C0%2Finterlace%2C1%2Fformat%2Cwebp%2Fquality%2Cq_70"
+              src={
+                "https://upload-os-bbs.hoyolab.com/upload/2025/01/14/256651796/b78c1d2ed8c05bba57e2735d23329975_3892500857571519465.webp?x-oss-process=image%2Fresize%2Cs_1000%2Fauto-orient%2C0%2Finterlace%2C1%2Fformat%2Cwebp%2Fquality%2Cq_70"
+              }
               alt="profile"
               className="w-full h-full object-cover"
             />
@@ -36,22 +47,21 @@ export default function _Proflie() {
             <input type="file" accept="image/*" className="hidden" />
           </label>
           <div className="text-center">
-            <h1 className="text-2xl font-bold text-darker">Hertanate</h1>
-            <p className="text-sm text-gray-500">@hertanate</p>
+            <h1 className="text-2xl font-bold text-darker">{name}</h1>
+            <p className="text-sm text-gray-500">@{username}</p>
           </div>
-          <p className="text-sm text-center text-gray-600">
-            Hai! Aku adalah content creator yang suka membuat konten tentang
-            anime dan game!
-          </p>
+          <h5 className=" text-sm text-center text-gray-600">{bio}</h5>
 
           <div className="w-full flex flex-col gap-2">
             <div className="flex-1 bg-primary/5 rounded-lg p-4 text-center">
               <p className="text-sm text-gray-500">Total Donasi</p>
-              <p className="text-lg font-bold text-primary">Rp 1.000.000</p>
+              <p className="text-lg font-bold text-primary">
+                {formatUnits(totalReceived, 2)} IDRX
+              </p>
             </div>
             <div className="flex-1 bg-primary/5 rounded-lg p-4 text-center">
               <p className="text-sm text-gray-500">Total Supporter</p>
-              <p className="text-xl font-bold text-primary">50</p>
+              <p className="text-xl font-bold text-primary">{totalSupporter}</p>
             </div>
           </div>
 
@@ -86,45 +96,3 @@ export default function _Proflie() {
     </div>
   );
 }
-
-interface SocialLinksProps {
-  type: "facebook" | "instagram" | "twitter" | "youtube";
-  usernameSocial: string;
-  icon: React.ReactNode;
-}
-
-const SocialLinks_DUMMY: SocialLinksProps[] = [
-  {
-    type: "facebook",
-    icon: <BiLogoFacebook className="bx bxl-facebook text-xl text-primary" />,
-    usernameSocial: "hertanate",
-  },
-  {
-    type: "instagram",
-    icon: <BiLogoInstagram className="bx bxl-facebook text-xl text-primary" />,
-    usernameSocial: "hertanate",
-  },
-  {
-    type: "twitter",
-    icon: <BiLogoTwitter className="bx bxl-facebook text-xl text-primary" />,
-    usernameSocial: "hertanate",
-  },
-  {
-    type: "youtube",
-    icon: <BiLogoYoutube className="bx bxl-facebook text-xl text-primary" />,
-    usernameSocial: "hertanate",
-  },
-];
-
-const SocialLinks = (props: SocialLinksProps) => {
-  return (
-    <Link
-      href="#"
-      className="w-full px-4 py-2 flex items-center gap-2 rounded-md bg-primary/5 hover:bg-primary/10 transition-colors"
-    >
-      {/* <BiLogoFacebook className="bx bxl-facebook text-xl text-primary" /> */}
-      {props.icon}
-      <span className="text-sm text-gray-600">@{props.usernameSocial}</span>
-    </Link>
-  );
-};

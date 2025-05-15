@@ -1,7 +1,7 @@
 import { useReadContract } from "wagmi";
 import { HertanateABI } from "@/constants/abi";
 import { Address } from "abitype";
-import { erc20Abi } from "viem";
+import { erc20Abi, formatUnits } from "viem";
 import { CONFIG } from "@/config";
 
 export function getAccountBalance(userAddress: Address) {
@@ -24,10 +24,12 @@ export function getCreatorByAddress(creatorAddress: Address) {
   });
 
   return {
-    username: data?.[0],
-    name: data?.[1],
-    bio: data?.[2],
-    socials: data?.[3],
-    totalReceived: data?.[4],
+    username: data?.[0] ?? "",
+    name: data?.[1] ?? "",
+    bio: data?.[2] ?? "",
+    socials: data?.[3] ?? "",
+    totalReceived: data?.[4] ?? BigInt(0),
   };
 }
+
+export function getCreatorByUsername(username: string) {}
