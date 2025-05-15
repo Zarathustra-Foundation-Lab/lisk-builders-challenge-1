@@ -1,14 +1,6 @@
 import React from "react";
 
-import {
-  BiCoin,
-  BiCrown,
-  BiDiamond,
-  BiHeart,
-  BiMedal,
-  BiStar,
-  BiUser,
-} from "react-icons/bi";
+import { BiCoin, BiHeart, BiUser } from "react-icons/bi";
 
 import _Profile from "./profile";
 import LeaderBoardCard from "@/components/modules/LeaderBoard";
