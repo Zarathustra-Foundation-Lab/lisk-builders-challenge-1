@@ -5,25 +5,22 @@ import { buildModule } from "@nomicfoundation/hardhat-ignition/modules";
 
 import { HertanateConfig } from "../../constants/constructor-hertanate";
 
-const HertanateDonateTestnetModule = buildModule(
-  "hertanate_donate_testnet_module",
-  (m) => {
-    // load config
-    const { _initialAllowedTokens, _initialOwners, initialForwarder } =
-      HertanateConfig.testnet();
+const HertanateDonateTestnetModule = buildModule("Hertanate", (m) => {
+  // load config
+  const { _initialAllowedTokens, _initialOwners, initialForwarder } =
+    HertanateConfig.testnet();
 
-    // deploy contract
-    const hertanate = m.contract(
-      "HertanateDonate",
-      [initialForwarder, _initialAllowedTokens, _initialOwners],
-      {}
-    );
+  // deploy contract
+  const hertanate = m.contract(
+    "HertanateContract",
+    [initialForwarder, _initialAllowedTokens, _initialOwners],
+    {}
+  );
 
-    console.info(`Hertanate Deployment Result : \n\n`);
-    console.log(hertanate);
+  console.info(`Hertanate Deployment Result : \n\n`);
+  console.log(hertanate);
 
-    return { hertanate };
-  }
-);
+  return { hertanate };
+});
 
 export default HertanateDonateTestnetModule;
