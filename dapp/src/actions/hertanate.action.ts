@@ -1,10 +1,8 @@
-import { useReadContract } from "wagmi";
+import { useReadContract, useWriteContract } from "wagmi";
 import { HertanateABI } from "@/constants/abi";
 import { Address } from "abitype";
 import { erc20Abi, formatUnits } from "viem";
 import { CONFIG } from "@/config";
-
-import { create } from "zustand";
 
 export function getAccountBalance(userAddress: Address) {
   const { data, isLoading, error } = useReadContract({
@@ -48,4 +46,26 @@ export function getCreatorByUsername(username: string) {
   });
 
   return { creator: data, isLoading, error };
+}
+
+export async function signupCreator(
+  username: string,
+  displayName: string,
+  image: string,
+  description: string,
+  socials: string
+) {
+  const { writeContract, error, isPending, status } = useWriteContract();
+
+  writeContract({
+    address: CONFIG.LISK_SEPOLIA.HERTANATE_ADDRESS,
+    abi: HertanateABI,
+    functionName: "signupCreator",
+    args: [username.toLowerCase(), displayName, image, description, socials],
+  });
+
+  return {
+    error,
+    isLoading: isPending,
+  };
 }

@@ -3,6 +3,7 @@ import React from "react";
 import { BiCoin, BiHeart, BiUser } from "react-icons/bi";
 import Profile from "@/components/layouts/creator/profile";
 import LeaderBoardCard from "@/components/modules/LeaderBoard";
+
 import { truncateAddress } from "@/utils/utils";
 import { useCreatorStore, useCreatorData } from "@/stores/creator.store";
 
@@ -31,21 +32,21 @@ export default function CreatorPage({
     );
   }
 
-  // if (error) {
-  //   return (
-  //     <div className="h-full flex justify-center items-center">
-  //       <h2 className="font-medium text-2xl text-center">Error loading data</h2>
-  //     </div>
-  //   );
-  // }
+  if (error) {
+    return (
+      <div className="h-full flex justify-center items-center">
+        <h2 className="font-medium text-2xl text-center">Error loading data</h2>
+      </div>
+    );
+  }
 
-  // if (!creator) {
-  //   return (
-  //     <div className="h-full flex justify-center items-center">
-  //       <h2 className="font-medium text-2xl text-center">Creator Not Found</h2>
-  //     </div>
-  //   );
-  // }
+  if (!creator) {
+    return (
+      <div className="h-full flex justify-center items-center">
+        <h2 className="font-medium text-2xl text-center">Creator Not Found</h2>
+      </div>
+    );
+  }
 
   return (
     <>

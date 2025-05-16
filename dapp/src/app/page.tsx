@@ -10,12 +10,10 @@ export default function Home() {
     <div className="overflow-x-hidden w-full">
       <Navbar />
 
-      {/* CONTENT START */}
       <HeroSection />
       <FeatureSection />
       <HowItWorkSection />
       <TierSection />
-      {/* CONTENT END */}
 
       <Footer />
     </div>

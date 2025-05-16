@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export default function Footer() {
   return (
-    <footer className="fixed bottom-0 left-0 w-full">
+    <footer className="relative bottom-0 left-0 w-full">
       <div className="text-xs w-full h-12 px-4 bg-gradient-to-br from-[#806699] to-[#6451AB] text-white grid grid-cols-3 items-center">
         <div className="">
           <p className="max-md:hidden font-medium text-xl text-white font-inter">
