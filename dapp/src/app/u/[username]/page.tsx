@@ -1,57 +1,43 @@
+"use client";
 import React from "react";
-
 import { BiCoin, BiHeart, BiUser } from "react-icons/bi";
-
 import Profile from "@/components/layouts/creator/profile";
 import LeaderBoardCard from "@/components/modules/LeaderBoard";
-import Navbar from "@/components/modules/Navbar";
-
-import { Address } from "viem";
 import { truncateAddress } from "@/utils/utils";
+import { useCreatorStore, useCreatorData } from "@/stores/creator.store";
 
-import { getDonationLogs } from "@/utils/getDonationLogs";
-import { getCreatorByUsername } from "@/actions/hertanate.action";
-
-export default async function CreatorPage({
+export default function CreatorPage({
   params,
 }: {
   params: { username: string };
 }) {
-  const donationLogs = await getDonationLogs();
+  const {
+    creator,
+    donationLogs,
+    topSupporters,
+    recentDonations,
+    totalSupporters,
+    isLoading,
+    error,
+  } = useCreatorStore();
 
-  const getTotalSupporter = async () => {
-    // Ambil semua address `from` dari logs
-    const fromAddresses = donationLogs.map(({ from }) => from as Address);
+  useCreatorData(params.username);
 
-    // Buat Set untuk buang duplikat
-    const uniqueSupporters = new Set(fromAddresses);
+  if (isLoading) {
+    return (
+      <div className="h-full flex justify-center items-center">
+        <h2 className="font-medium text-2xl text-center">Loading...</h2>
+      </div>
+    );
+  }
 
-    // Total supporter unik
-    return uniqueSupporters.size;
-  };
-
-  const getLeaderboard = async (
-    typeLeaderboard: "top_supporter" | "recenly_donated"
-  ) => {
-    if (typeLeaderboard == "top_supporter") {
-      // here
-      donationLogs.map(({ from, amount }) => from as Address);
-    }
-
-    const _data = donationLogs.map(({ from, amount }) => ({
-      image: "",
-      key: truncateAddress(from as Address),
-      value: amount ?? "",
-    }));
-
-    return _data;
-  };
-
-  // fetch data
-  const totalSupporter = await getTotalSupporter();
-  const topSupporters = await getLeaderboard("top_supporter");
-
-  console.log(params);
+  // if (error) {
+  //   return (
+  //     <div className="h-full flex justify-center items-center">
+  //       <h2 className="font-medium text-2xl text-center">Error loading data</h2>
+  //     </div>
+  //   );
+  // }
 
   // if (!creator) {
   //   return (
@@ -63,11 +49,11 @@ export default async function CreatorPage({
 
   return (
     <>
-      <div className="hidden lg:block">{/* <Navbar /> */}</div>
+      {/* <div className="hidden lg:block"><Navbar /></div> */}
       <div className="w-full min-h-dvh flex justify-center bg-primary/5">
         <div className="w-full min-h-dvh flex flex-col lg:grid grid-cols-[1fr_3fr] grid-rows-1 gap-4 p-4 md:p-8">
           {/* <!-- User Profile Section & Mobile show --> */}
-          <Profile totalSupporter={totalSupporter} />
+          <Profile />
 
           {/* <!-- Main Content Section & Destop Show --> */}
           <div className="flex flex-col gap-4">
@@ -125,19 +111,21 @@ export default async function CreatorPage({
                 <LeaderBoardCard
                   type="activate"
                   title="Top Supporters"
-                  data={topSupporters}
+                  data={topSupporters.map((supporter) => ({
+                    image: "",
+                    key: truncateAddress(supporter.address),
+                    value: supporter.amount,
+                  }))}
                 />
 
                 <LeaderBoardCard
                   type="activate"
                   title="Recent Donate"
-                  data={[
-                    {
-                      image: "",
-                      key: "Herman",
-                      value: "2000",
-                    },
-                  ]}
+                  data={recentDonations.map((donation) => ({
+                    image: "",
+                    key: truncateAddress(donation.from || "0x"),
+                    value: donation.amount || "0",
+                  }))}
                 />
               </div>
 

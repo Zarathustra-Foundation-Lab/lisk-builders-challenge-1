@@ -23,7 +23,7 @@ const config = defaultConfig({
   // ssr: true,
 }) as Config;
 
-const queryClient = new QueryClient({
+export const queryClient = new QueryClient({
   defaultOptions: {},
 });
 

@@ -4,12 +4,25 @@ import { Address } from "abitype";
 import { erc20Abi, formatUnits } from "viem";
 import { CONFIG } from "@/config";
 
+import { create } from "zustand";
+
 export function getAccountBalance(userAddress: Address) {
   const { data, isLoading, error } = useReadContract({
     address: CONFIG.LISK_SEPOLIA.IDRX_ADDRESS,
     abi: erc20Abi,
     functionName: "balanceOf",
     args: [userAddress],
+  });
+
+  return { data, isLoading, error };
+}
+
+export function allowanceIDRX(userAddress: Address) {
+  const { data, isLoading, error } = useReadContract({
+    address: CONFIG.LISK_SEPOLIA.IDRX_ADDRESS,
+    abi: erc20Abi,
+    functionName: "allowance",
+    args: [userAddress, CONFIG.LISK_SEPOLIA.HERTANATE_ADDRESS],
   });
 
   return { data, isLoading, error };

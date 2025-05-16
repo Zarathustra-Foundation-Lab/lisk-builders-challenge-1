@@ -1,35 +1,13 @@
 "use client";
 import React from "react";
 import Image from "next/image";
-
 import { BiImageAdd, BiLink } from "react-icons/bi";
-import SocialLinks, { SocialLinks_DUMMY } from "./socials";
+import SocialLinks from "./socials";
+import { formatUnits } from "viem";
+import { useCreatorStore } from "@/stores/creator.store";
 
-import { Address, formatUnits } from "viem";
-import { useAccount } from "wagmi";
-
-import { getCreatorByUsername } from "@/actions/hertanate.action";
-
-interface ProfileProps {
-  creator?: {
-    creatorAddress: `0x${string}`;
-    username: string;
-    detail: {
-      image: string;
-      name: string;
-      bio: string;
-      socials: string;
-    };
-    totalReceived: bigint;
-    isActive: boolean;
-  };
-  totalSupporter: number;
-}
-
-export default function Proflie({ totalSupporter = 0 }: ProfileProps) {
-  const { address } = useAccount();
-
-  const { creator } = getCreatorByUsername("");
+export default function Profile() {
+  const { creator, totalSupporters } = useCreatorStore();
 
   return (
     <div className="w-full bg-white rounded-lg shadow-lg p-4 h-fit">
@@ -59,38 +37,45 @@ export default function Proflie({ totalSupporter = 0 }: ProfileProps) {
           </label>
           <div className="text-center">
             <h1 className="text-2xl font-bold text-darker">
-              {creator?.detail.name}
+              {creator?.detail.name || "Creator Name"}
             </h1>
-            <p className="text-sm text-gray-500">@{creator?.username}</p>
+            <p className="text-sm text-gray-500">
+              @{creator?.username || "username"}
+            </p>
           </div>
-          <h5 className=" text-sm text-center text-gray-600">
-            {creator?.detail.bio}
+          <h5 className="text-sm text-center text-gray-600">
+            {creator?.detail.bio || "No bio yet"}
           </h5>
 
           <div className="w-full flex flex-col gap-2">
             <div className="flex-1 bg-primary/5 rounded-lg p-4 text-center">
               <p className="text-sm text-gray-500">Total Donasi</p>
               <p className="text-lg font-bold text-primary">
-                {formatUnits(creator?.totalReceived ?? BigInt(0), 2)} IDRX
+                {formatUnits(creator?.totalReceived || BigInt(0), 2)} IDRX
               </p>
             </div>
             <div className="flex-1 bg-primary/5 rounded-lg p-4 text-center">
               <p className="text-sm text-gray-500">Total Supporter</p>
-              <p className="text-xl font-bold text-primary">{totalSupporter}</p>
+              <p className="text-xl font-bold text-primary">
+                {totalSupporters}
+              </p>
             </div>
           </div>
 
           <div className="w-full flex flex-col gap-2">
-            {SocialLinks_DUMMY.map((item, idx) => {
-              return (
-                <SocialLinks
-                  key={`socials-creator-${idx}`}
-                  icon={item.icon}
-                  type={item.type}
-                  usernameSocial={item.usernameSocial}
-                />
-              );
-            })}
+            {creator?.detail.socials &&
+              JSON.parse(creator.detail.socials).map(
+                (item: any, idx: number) => {
+                  return (
+                    <SocialLinks
+                      key={`socials-creator-${idx}`}
+                      icon={item.icon}
+                      type={item.type}
+                      usernameSocial={item.usernameSocial}
+                    />
+                  );
+                }
+              )}
 
             {/* <!-- Additional Links --> */}
             <div className="w-full mt-2">
