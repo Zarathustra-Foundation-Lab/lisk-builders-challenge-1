@@ -2,7 +2,33 @@
 import React from "react";
 import Image from "next/image";
 import { BiImageAdd, BiLink } from "react-icons/bi";
+import {
+  FaInstagram,
+  FaTwitter,
+  FaYoutube,
+  FaTiktok,
+  FaLink,
+  FaFacebook,
+} from "react-icons/fa";
 import SocialLinks from "./socials";
+
+const getIconForDomain = (domain: string) => {
+  switch (domain) {
+    case "instagram.com":
+      return <FaInstagram className="text-primary/80" />;
+    case "twitter.com":
+      return <FaTwitter className="text-primary/80" />;
+    case "youtube.com":
+      return <FaYoutube className="text-primary/80" />;
+    case "tiktok.com":
+      return <FaTiktok className="text-primary/80" />;
+    case "facebook.com":
+      return <FaFacebook className="text-primary/80" />;
+    default:
+      return <FaLink className="text-primary/80" />;
+  }
+};
+
 import { formatUnits } from "viem";
 import { useCreatorStore } from "@/stores/creator.store";
 
@@ -63,36 +89,31 @@ export default function Profile() {
           </div>
 
           <div className="w-full flex flex-col gap-2">
-            {creator?.detail.socials &&
-              JSON.parse(creator.detail.socials).map(
-                (item: any, idx: number) => {
+            {creator?.detail.socials
+              ?.split(";")
+              .filter((link) => link.trim() !== "")
+              .map((link, idx) => {
+                try {
+                  const url = new URL(link);
+                  const domain = url.hostname.replace("www.", "");
                   return (
                     <SocialLinks
                       key={`socials-creator-${idx}`}
-                      icon={item.icon}
-                      type={item.type}
-                      usernameSocial={item.usernameSocial}
+                      icon={getIconForDomain(domain)}
+                      link={link}
+                      usernameSocial={url.pathname.replace("/", "")}
                     />
                   );
+                } catch {
+                  return null;
                 }
-              )}
-
-            {/* <!-- Additional Links --> */}
-            <div className="w-full mt-2">
-              <p className="text-sm font-medium text-gray-600 mb-2">
-                Additional Links
-              </p>
-              <a
-                href="#"
-                className="w-full px-4 py-2 flex items-center gap-2 rounded-md bg-primary/5 hover:bg-primary/10 transition-colors"
-              >
-                <BiLink className="bx bx-link text-xl text-primary"></BiLink>
-                <span className="text-sm text-gray-600">My Website</span>
-              </a>
-            </div>
+              })}
           </div>
         </div>
       </div>
     </div>
   );
 }
+
+const DUMMY_SOCIALS =
+  "https://www.facebook.com/ary.hidayat.54584;https://www.instagram.com/rezazacryptozorzor;https://www.youtube.com/channel/UCqdsVs7YMAXgBQgsQpPemDQ;https://rizkyreza.fun";

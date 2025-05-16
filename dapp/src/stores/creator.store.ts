@@ -4,6 +4,21 @@ import { Address } from "viem";
 import { getDonationLogs } from "@/utils/getDonationLogs";
 import { getCreatorByUsername } from "@/actions/hertanate.action";
 
+interface CreatorDetail {
+  image: string;
+  name: string;
+  bio: string;
+  socials: string;
+}
+
+interface Creator {
+  creatorAddress: Address;
+  username: string;
+  detail: CreatorDetail;
+  totalReceived: bigint;
+  isActive: boolean;
+}
+
 interface DonationLog {
   from?: Address;
   creator?: Address;
@@ -14,19 +29,24 @@ interface DonationLog {
   txHash: Address;
 }
 
+interface Supporter {
+  address: Address;
+  amount: string;
+}
+
 interface CreatorStore {
   username: string;
-  creator: any | null;
+  creator: Creator | null;
   donationLogs: DonationLog[];
-  topSupporters: any[];
-  recentDonations: any[];
+  topSupporters: Supporter[];
+  recentDonations: DonationLog[];
   totalSupporters: number;
   isLoading: boolean;
   error: Error | null;
-  setCreator: (creator: any) => void;
+  setCreator: (creator: Creator | null) => void;
   setDonationLogs: (logs: DonationLog[]) => void;
-  setTopSupporters: (supporters: any[]) => void;
-  setRecentDonations: (donations: any[]) => void;
+  setTopSupporters: (supporters: Supporter[]) => void;
+  setRecentDonations: (donations: DonationLog[]) => void;
   setTotalSupporters: (count: number) => void;
   setLoading: (loading: boolean) => void;
   setError: (error: Error | null) => void;

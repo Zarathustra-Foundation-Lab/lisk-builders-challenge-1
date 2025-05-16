@@ -95,9 +95,10 @@ export default function CreatorPage({
                     <BiCoin className="bx bx-coin text-xl text-primary"></BiCoin>
                     <input
                       type="number"
-                      placeholder="Custom"
+                      placeholder="Custom IDRX"
                       className="w-full bg-transparent focus:outline-none text-center"
                     />
+                    <h6 className="">IDRX</h6>
                   </div>
                 </div>
                 <button className="w-full px-4 py-3 bg-gradient-to-r from-primary to-[#d33f6e] text-white rounded-lg font-medium shadow-lg hover:shadow-primary/50 transition-all hover:-translate-y-1 flex items-center justify-center gap-2">
