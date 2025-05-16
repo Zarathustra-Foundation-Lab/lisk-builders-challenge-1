@@ -4,10 +4,11 @@ import Image from "next/image";
 import { BiWallet } from "react-icons/bi";
 import CreatorInformation from "./CreatorInformation";
 import SocialsField from "./SocialsField";
-import { useAccount } from "wagmi";
+
 import { ConnectButton } from "@xellar/kit";
 import { signupCreator } from "@/actions/hertanate.action";
 import { joinSocials } from "@/utils/utils";
+import { useAccount, useWalletClient } from "wagmi";
 
 export default function SignUpForm() {
   const [username, setUsername] = useState("");
@@ -52,7 +53,14 @@ export default function SignUpForm() {
 
       console.log(socialsString);
 
-      // await signupCreator(username, name, imagePreview, bio, socialsString);
+      await signupCreator({
+        userAddress: address!,
+        username,
+        displayName: name,
+        image: imagePreview,
+        description: bio,
+        socials: socialsString,
+      });
     } catch (err) {
       console.error("Signup failed:", err);
       setError("Signup failed. Please try again.");

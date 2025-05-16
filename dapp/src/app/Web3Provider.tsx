@@ -14,7 +14,7 @@ const xellarAppId = process.env.NEXT_PUBLIC_XELLAR_PROJECT_ID as string;
 // console.log(walletConnectProjectId);
 // console.log(xellarAppId);
 
-const config = defaultConfig({
+export const config = defaultConfig({
   appName: "Hertanet",
   walletConnectProjectId: walletConnectProjectId,
   xellarAppId: xellarAppId,

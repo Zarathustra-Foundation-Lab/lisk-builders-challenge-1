@@ -1,8 +1,21 @@
 import { useReadContract, useWriteContract } from "wagmi";
 import { HertanateABI } from "@/constants/abi";
 import { Address } from "abitype";
-import { erc20Abi, formatUnits } from "viem";
+import {
+  erc20Abi,
+  formatUnits,
+  encodeFunctionData,
+  createWalletClient,
+  custom,
+} from "viem";
 import { CONFIG } from "@/config";
+
+import { liskSepolia } from "viem/chains";
+
+import {
+  GelatoRelay,
+  CallWithERC2771Request,
+} from "@gelatonetwork/relay-sdk-viem";
 
 export function getAccountBalance(userAddress: Address) {
   const { data, isLoading, error } = useReadContract({
@@ -48,24 +61,80 @@ export function getCreatorByUsername(username: string) {
   return { creator: data, isLoading, error };
 }
 
-export async function signupCreator(
-  username: string,
-  displayName: string,
-  image: string,
-  description: string,
-  socials: string
-) {
-  const { writeContract, error, isPending, status } = useWriteContract();
+//
+interface SignupParams {
+  userAddress: Address;
+  username: string;
+  displayName: string;
+  image: string;
+  description: string;
+  socials: string;
+  // walletClient: any;
+}
 
-  writeContract({
-    address: CONFIG.LISK_SEPOLIA.HERTANATE_ADDRESS,
-    abi: HertanateABI,
-    functionName: "signupCreator",
-    args: [username.toLowerCase(), displayName, image, description, socials],
-  });
+export async function signupCreator({
+  userAddress,
+  username,
+  displayName,
+  image,
+  description,
+  socials,
+}: // walletClient,
+SignupParams) {
+  try {
+    // get gealto relay instance
+    const relay = new GelatoRelay();
 
-  return {
-    error,
-    isLoading: isPending,
-  };
+    // get etherium provider
+    const _window = window as unknown as any;
+
+    const walletClient = createWalletClient({
+      account: userAddress,
+      chain: liskSepolia,
+      transport: custom(_window.ethereum!),
+    });
+
+    // encode function
+    const data = encodeFunctionData({
+      abi: HertanateABI,
+      functionName: "signupCreator",
+      args: [username.toLowerCase(), displayName, "", description, socials],
+    });
+
+    if (!CONFIG.GELATO_API_KEY) {
+      throw new Error("Gelato API key is not configured");
+    }
+
+    // payload for gelato sponsor gass
+    const request: CallWithERC2771Request = {
+      chainId: BigInt(liskSepolia.id),
+      target: CONFIG.LISK_SEPOLIA.HERTANATE_ADDRESS,
+      data: data,
+      user: userAddress,
+    };
+
+    console.log(walletClient);
+
+    // triger function to smart contract using gelato as relayer for gassless transaction
+    const response = await relay.sponsoredCallERC2771(
+      request,
+      walletClient,
+      CONFIG.GELATO_API_KEY
+    );
+
+    console.log("response");
+    console.log(response);
+
+    return {
+      error: null,
+      isLoading: false,
+      taskId: response.taskId,
+    };
+  } catch (error) {
+    console.error("Gelato relay error:", error);
+    return {
+      error: error instanceof Error ? error : new Error("Gelato relay failed"),
+      isLoading: false,
+    };
+  }
 }

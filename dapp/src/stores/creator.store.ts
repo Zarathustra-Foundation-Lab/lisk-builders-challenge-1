@@ -87,8 +87,14 @@ export function useCreatorData(username: string) {
     queryFn: async () => {
       setLoading(true);
       try {
-        const res = await getCreatorByUsername(username);
-        setCreator(res?.creator || null);
+        const res = getCreatorByUsername(username);
+        setCreator({
+          creatorAddress: res.creator?.creatorAddress!,
+          detail: res.creator?.detail!,
+          isActive: res.creator?.isActive!,
+          username: res.creator?.username!,
+          totalReceived: BigInt(0),
+        });
         return res;
       } catch (error) {
         setError(error as Error);

@@ -6,12 +6,13 @@ import LeaderBoardCard from "@/components/modules/LeaderBoard";
 
 import { truncateAddress } from "@/utils/utils";
 import { useCreatorStore, useCreatorData } from "@/stores/creator.store";
+import { useParams } from "next/navigation";
 
-export default function CreatorPage({
-  params,
-}: {
-  params: { username: string };
-}) {
+export default function CreatorPage() {
+  const paramsUsername = useParams<{ username: string }>().username || "";
+
+  console.log(paramsUsername);
+
   const {
     creator,
     donationLogs,
@@ -22,7 +23,7 @@ export default function CreatorPage({
     error,
   } = useCreatorStore();
 
-  useCreatorData(params.username);
+  useCreatorData(paramsUsername);
 
   if (isLoading) {
     return (

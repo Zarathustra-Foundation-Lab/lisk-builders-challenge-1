@@ -1,6 +1,7 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
+
 import { ConnectButton } from "@xellar/kit";
 import { truncateAddress } from "@/utils/utils";
 import { useAccount } from "wagmi";
