@@ -20,3 +20,17 @@ Designed for crypto users, Hertanate simplifies the experience with user-friendl
 Donating should be simple and meaningful, but in reality, it’s often full of friction. Users rarely know where their money actually goes, and sometimes, the creators or people they donate to don’t even realize someone contributed. For first-time donors—especially with crypto—the process can be confusing, filled with technical steps like setting up wallets and choosing the right network. On top of that, most platforms require users to create an account, verify their email, and go through several steps before they can donate. All of this complexity ends up getting in the way of good intentions.
 
 **Hertanate removes the barriers between people and making donations as easy as connecting your wallet**
+
+# What's Next?
+We are on progress developing a embed button
+
+with just one line of code, anyone can embed your donation profile directly on their website, blog, or portfolio.
+No redirects. No friction. Just pure, seamless Web3 magic.
+
+Introducing our Hertanate Embed Button — drop it anywhere, and boom 💥
+You're now receiving crypto donations from anywhere on the internet.
+
+Your audience stays on your site. Your support grows. And you didn’t even need to lift a finger.
+
+It’s not just an embed.
+It’s your donation engine, deployable anywhere with a single click.
