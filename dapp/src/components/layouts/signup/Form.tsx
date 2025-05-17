@@ -6,7 +6,7 @@ import CreatorInformation from "./CreatorInformation";
 import SocialsField from "./SocialsField";
 
 import { ConnectButton } from "@xellar/kit";
-import { signupCreator } from "@/actions/hertanate.action";
+import { signupCreator } from "@/actions/creator.action";
 import { joinSocials } from "@/utils/utils";
 import { useAccount, useWalletClient } from "wagmi";
 

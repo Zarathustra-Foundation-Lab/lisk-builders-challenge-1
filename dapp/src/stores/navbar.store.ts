@@ -4,11 +4,8 @@ import { useQuery, QueryClient } from "@tanstack/react-query";
 import { useAccount } from "wagmi";
 import { Address, formatUnits } from "viem";
 
-import {
-  getAccountBalance,
-  allowanceIDRX,
-  getCreatorByAddress,
-} from "@/actions/hertanate.action";
+import { getAccountBalance, getAllowanceIDRX } from "@/actions/idrx.action";
+import { getCreatorByAddress } from "@/actions/creator.action";
 
 // Buat instance queryClient baru
 const queryClient = new QueryClient();
@@ -85,7 +82,7 @@ export function useNavbarData() {
     queryKey: ["allowance", address],
     queryFn: async () => {
       if (!address) return null;
-      const res = await allowanceIDRX(address);
+      const res = await getAllowanceIDRX(address);
       return res?.data || null;
     },
     enabled: !!address,

@@ -1,8 +1,9 @@
 import { create } from "zustand";
 import { useQuery } from "@tanstack/react-query";
 import { Address } from "viem";
+
 import { getDonationLogs } from "@/utils/getDonationLogs";
-import { getCreatorByUsername } from "@/actions/hertanate.action";
+import { getCreatorByUsername } from "@/actions/creator.action";
 
 interface CreatorDetail {
   image: string;
@@ -11,7 +12,7 @@ interface CreatorDetail {
   socials: string;
 }
 
-interface Creator {
+export interface Creator {
   creatorAddress: Address;
   username: string;
   detail: CreatorDetail;
@@ -29,7 +30,7 @@ interface DonationLog {
   txHash: Address;
 }
 
-interface Supporter {
+export interface Supporter {
   address: Address;
   amount: string;
 }

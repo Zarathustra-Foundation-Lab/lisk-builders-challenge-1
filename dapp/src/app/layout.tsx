@@ -5,10 +5,12 @@ import { Web3Provider } from "./Web3Provider";
 
 const monstrerat = Montserrat_Subrayada({
   weight: "400",
+  preload: false,
 });
 
 const inter = Inter({
   weight: "400",
+  preload: false,
 });
 
 export const metadata: Metadata = {

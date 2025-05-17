@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import Image from "next/image";
-import { BiImageAdd, BiLink } from "react-icons/bi";
+// import { BiImageAdd, BiLink } from "react-icons/bi";
 import {
   FaInstagram,
   FaTwitter,
@@ -11,6 +11,9 @@ import {
   FaFacebook,
 } from "react-icons/fa";
 import SocialLinks from "./socials";
+
+import { formatUnits } from "viem";
+import { Creator } from "@/stores/creator.store";
 
 const getIconForDomain = (domain: string) => {
   switch (domain) {
@@ -29,12 +32,12 @@ const getIconForDomain = (domain: string) => {
   }
 };
 
-import { formatUnits } from "viem";
-import { useCreatorStore } from "@/stores/creator.store";
+interface Props {
+  creator: Creator;
+  totalSupporters: number;
+}
 
-export default function Profile() {
-  const { creator, totalSupporters } = useCreatorStore();
-
+export default function Profile({ creator, totalSupporters }: Props) {
   return (
     <div className="w-full bg-white rounded-lg shadow-lg p-4 h-fit">
       <div className="flex flex-col items-center gap-4">
@@ -51,16 +54,18 @@ export default function Profile() {
               width={400}
               height={100}
               src={
+                creator.detail.image ||
                 "https://upload-os-bbs.hoyolab.com/upload/2025/01/14/256651796/b78c1d2ed8c05bba57e2735d23329975_3892500857571519465.webp?x-oss-process=image%2Fresize%2Cs_1000%2Fauto-orient%2C0%2Finterlace%2C1%2Fformat%2Cwebp%2Fquality%2Cq_70"
               }
               alt="profile"
               className="w-full h-full object-cover"
             />
-            <div className="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+            {/* <div className="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
               <BiImageAdd className="bx bx-image-add text-3xl text-white" />
             </div>
-            <input type="file" accept="image/*" className="hidden" />
+            <input type="file" accept="image/*" className="hidden" /> */}
           </label>
+
           <div className="text-center">
             <h1 className="text-2xl font-bold text-darker">
               {creator?.detail.name || "Creator Name"}
@@ -69,6 +74,7 @@ export default function Profile() {
               @{creator?.username || "username"}
             </p>
           </div>
+
           <h5 className="text-sm text-center text-gray-600">
             {creator?.detail.bio || "No bio yet"}
           </h5>
@@ -88,20 +94,28 @@ export default function Profile() {
             </div>
           </div>
 
+          {/* socials */}
           <div className="w-full flex flex-col gap-2">
             {creator?.detail.socials
               ?.split(";")
               .filter((link) => link.trim() !== "")
               .map((link, idx) => {
                 try {
+                  // console.log(link);
+                  if (!link.startsWith("https://")) {
+                    link = `https://${link}`;
+                  }
+
                   const url = new URL(link);
                   const domain = url.hostname.replace("www.", "");
+
+                  console.log(domain);
                   return (
                     <SocialLinks
                       key={`socials-creator-${idx}`}
                       icon={getIconForDomain(domain)}
                       link={link}
-                      usernameSocial={url.pathname.replace("/", "")}
+                      usernameSocial={url.pathname.replaceAll("/", "")}
                     />
                   );
                 } catch {
@@ -114,6 +128,3 @@ export default function Profile() {
     </div>
   );
 }
-
-const DUMMY_SOCIALS =
-  "https://www.facebook.com/ary.hidayat.54584;https://www.instagram.com/rezazacryptozorzor;https://www.youtube.com/channel/UCqdsVs7YMAXgBQgsQpPemDQ;https://rizkyreza.fun";
