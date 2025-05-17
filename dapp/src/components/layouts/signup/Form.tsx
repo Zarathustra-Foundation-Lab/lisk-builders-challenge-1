@@ -6,9 +6,10 @@ import CreatorInformation from "./CreatorInformation";
 import SocialsField from "./SocialsField";
 
 import { ConnectButton } from "@xellar/kit";
-import { signupCreator } from "@/actions/creator.action";
 import { joinSocials } from "@/utils/utils";
-import { useAccount, useWalletClient } from "wagmi";
+import { useAccount } from "wagmi";
+import { signupCreator } from "@/services/creator.service";
+import { useRouter } from "next/navigation";
 
 export default function SignUpForm() {
   const [username, setUsername] = useState("");
@@ -27,6 +28,7 @@ export default function SignUpForm() {
   });
 
   const { address } = useAccount();
+  const router = useRouter();
 
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -51,9 +53,7 @@ export default function SignUpForm() {
 
       const socialsString = joinSocials(socialArray);
 
-      console.log(socialsString);
-
-      await signupCreator({
+      const result = await signupCreator({
         userAddress: address!,
         username,
         displayName: name,
@@ -61,6 +61,12 @@ export default function SignUpForm() {
         description: bio,
         socials: socialsString,
       });
+
+      if (result.success) {
+        router.push(`/`);
+      } else {
+        throw new Error("Signup failed");
+      }
     } catch (err) {
       console.error("Signup failed:", err);
       setError("Signup failed. Please try again.");

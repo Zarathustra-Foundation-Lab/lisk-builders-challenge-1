@@ -13,6 +13,9 @@ const nextConfig: NextConfig = {
       {
         hostname: "upload-os-bbs.hoyolab.com",
       },
+      {
+        hostname: "i.pinimg.com",
+      },
     ],
   },
 };

@@ -101,7 +101,6 @@ export default function Profile({ creator, totalSupporters }: Props) {
               .filter((link) => link.trim() !== "")
               .map((link, idx) => {
                 try {
-                  // console.log(link);
                   if (!link.startsWith("https://")) {
                     link = `https://${link}`;
                   }
@@ -109,7 +108,6 @@ export default function Profile({ creator, totalSupporters }: Props) {
                   const url = new URL(link);
                   const domain = url.hostname.replace("www.", "");
 
-                  console.log(domain);
                   return (
                     <SocialLinks
                       key={`socials-creator-${idx}`}

@@ -1,21 +1,11 @@
 import type { Metadata } from "next";
-import { Montserrat_Subrayada, Inter } from "next/font/google";
 import "./globals.css";
 import { Web3Provider } from "./Web3Provider";
-
-const monstrerat = Montserrat_Subrayada({
-  weight: "400",
-  preload: false,
-});
-
-const inter = Inter({
-  weight: "400",
-  preload: false,
-});
+import { monstrerat, inter } from "../utils/fonts";
 
 export const metadata: Metadata = {
   title: "Hertanate",
-  description: "",
+  description: "A platform for creators to receive donations in cryptocurrency",
 };
 
 export default function RootLayout({

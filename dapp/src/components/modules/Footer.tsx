@@ -1,6 +1,12 @@
-import Image from "next/image";
+"use client";
+import { useEffect, useState } from "react";
 
 export default function Footer() {
+  const [year, setYear] = useState<number>();
+
+  useEffect(() => {
+    setYear(new Date().getFullYear());
+  }, []);
   return (
     <footer className="relative bottom-0 left-0 w-full">
       <div className="text-xs w-full h-12 px-4 bg-gradient-to-br from-[#806699] to-[#6451AB] text-white grid grid-cols-3 items-center">
@@ -8,6 +14,7 @@ export default function Footer() {
           <p className="max-md:hidden font-medium text-xl text-white font-inter">
             Hertanate
           </p>
+          <p className="md:hidden text-xs">© {year} Hertanate</p>
         </div>
         <ul className="flex gap-2 md:gap-4">
           <li className="flex items-center gap-1 md:gap-2">
@@ -27,7 +34,7 @@ export default function Footer() {
           </li>
         </ul>
         <p className="max-md:hidden md:text-sm font-light text-right">
-          © <span id="date"></span> Hertanate. All rights reserved.
+          © {year} Hertanate. All rights reserved.
         </p>
       </div>
     </footer>

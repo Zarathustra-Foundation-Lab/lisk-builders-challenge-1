@@ -1,32 +1,23 @@
 "use client";
 
 import React from "react";
-import { Config, WagmiProvider } from "wagmi";
+import { WagmiProvider } from "wagmi";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { XellarKitProvider, defaultConfig, darkTheme } from "@xellar/kit";
-
-import { polygonAmoy, liskSepolia, lisk } from "viem/chains";
-
-const walletConnectProjectId = process.env
-  .NEXT_PUBLIC_XELLAR_CLIENT_SECRET as string;
-const xellarAppId = process.env.NEXT_PUBLIC_XELLAR_PROJECT_ID as string;
-
-export const config = defaultConfig({
-  appName: "Hertanet",
-  walletConnectProjectId: walletConnectProjectId,
-  xellarAppId: xellarAppId,
-  xellarEnv: "sandbox",
-  chains: [liskSepolia],
-  // ssr: true,
-}) as Config;
+import { XellarKitProvider, darkTheme } from "@xellar/kit";
+import { wagmiConfig } from "../config/wagmi";
 
 export const queryClient = new QueryClient({
-  defaultOptions: {},
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      staleTime: 60 * 1000, // 1 minute
+    },
+  },
 });
 
 export const Web3Provider = ({ children }: { children: React.ReactNode }) => {
   return (
-    <WagmiProvider config={config}>
+    <WagmiProvider config={wagmiConfig}>
       <QueryClientProvider client={queryClient}>
         <XellarKitProvider showConfirmationModal theme={darkTheme}>
           {children}
