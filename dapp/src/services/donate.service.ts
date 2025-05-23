@@ -1,5 +1,4 @@
-import { Address, encodeFunctionData } from "viem";
-import { walletClient } from "@/services/client";
+import { Address, createWalletClient, custom, encodeFunctionData } from "viem";
 import { HertanateABI } from "@/constants/abi";
 import { CONFIG } from "@/config";
 import { CallWithERC2771Request } from "@gelatonetwork/relay-sdk-viem";
@@ -13,6 +12,16 @@ export async function donateToCreator(params: {
   message: string;
 }) {
   try {
+    // get etherium provider
+    const _window = window as unknown as any;
+
+    // get wallet client
+    const walletClient = createWalletClient({
+      account: params.userAddress,
+      chain: liskSepolia,
+      transport: custom(_window.ethereum!),
+    });
+
     if (!walletClient) throw new Error("Wallet client not initialized");
 
     if (

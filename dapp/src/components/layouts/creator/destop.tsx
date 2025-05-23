@@ -67,11 +67,18 @@ export default function DestopProfile({
     setAmount(_amount);
   };
 
-  // here
+  // note: here
   const handleDonate = async () => {
     try {
       if (!address) {
         alert("Please connect your wallet first");
+        return;
+      }
+
+      if (amount < 10_000) {
+        alert(
+          `Minimum Donate 10000 IDRX but you just put ${amount.toString()} IDRX`
+        );
         return;
       }
 
@@ -167,6 +174,7 @@ export default function DestopProfile({
                     setOptionActive(-1);
                   }}
                   type="number"
+                  min={10_000}
                   placeholder="Custom IDRX"
                   className="w-full px-4 py-2 focus:outline-none text-center bg-primary/10 focus:bg-primary/30"
                 />
@@ -235,9 +243,9 @@ export default function DestopProfile({
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center justify-between">
                             {/* <span className="font-medium">Madam Herta</span> */}
-                            {/* <span className="text-sm text-gray-500">
-                            2 months ago
-                          </span> */}
+                            <span className="text-sm text-gray-500">
+                              2 months ago
+                            </span>
                           </div>
                           <div className="text-sm text-gray-500 truncate">
                             {from}

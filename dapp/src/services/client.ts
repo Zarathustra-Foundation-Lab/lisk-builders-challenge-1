@@ -6,7 +6,6 @@ declare global {
     ethereum?: any;
   }
 }
-
 export const publicClient = createPublicClient({
   chain: liskSepolia,
   transport:

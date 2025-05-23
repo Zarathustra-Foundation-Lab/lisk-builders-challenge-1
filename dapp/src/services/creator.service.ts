@@ -1,6 +1,4 @@
-import { Address, createPublicClient, http, encodeFunctionData } from "viem";
-import { getWalletClient } from "@wagmi/core";
-import { wagmiConfig } from "@/config/wagmi";
+import { Address, encodeFunctionData, custom, createWalletClient } from "viem";
 
 import { liskSepolia } from "viem/chains";
 import { HertanateABI } from "@/constants/abi";
@@ -8,16 +6,11 @@ import { HertanateABI } from "@/constants/abi";
 import { CONFIG } from "@/config";
 import { CallWithERC2771Request } from "@gelatonetwork/relay-sdk-viem";
 import { relay } from "./gelato";
-import { publicClient } from "./client";
+import { publicClient, walletClient } from "./client";
 
 if (!CONFIG.LISK_SEPOLIA.HERTANATE_ADDRESS) {
   throw new Error("NEXT_PUBLIC_HERTANATE_CONTRACT is not set");
 }
-
-// const publicClient = createPublicClient({
-//   chain: liskSepolia,
-//   transport: http(),
-// });
 
 export async function getCreatorByAddress(address: Address) {
   const creator = await publicClient.readContract({
@@ -52,7 +45,16 @@ interface SignupCreatorParams {
 
 export const signupCreator = async (params: SignupCreatorParams) => {
   try {
-    const walletClient = await getWalletClient(wagmiConfig);
+    // get etherium provider
+    const _window = window as unknown as any;
+
+    // get wallet client
+    const walletClient = createWalletClient({
+      account: params.userAddress,
+      chain: liskSepolia,
+      transport: custom(_window.ethereum!),
+    });
+
     if (!walletClient) throw new Error("Wallet not connected");
 
     // encode function data
