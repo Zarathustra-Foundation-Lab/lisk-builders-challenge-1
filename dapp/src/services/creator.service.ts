@@ -34,6 +34,27 @@ export async function getCreatorByUsername(username: string) {
   return { data: creator };
 }
 
+async function checkCreatorAlreadyRegistred({
+  userAddress,
+  username,
+}: {
+  username: string;
+  userAddress: Address;
+}) {
+  const usernameIsRegistered = (await getCreatorByUsername(username)).data
+    .isActive;
+  const addressIsRegistered = (await getCreatorByAddress(userAddress)).data
+    .isActive;
+
+  if (usernameIsRegistered)
+    throw new Error(
+      "username is Already Registered, please use another username"
+    );
+
+  if (addressIsRegistered)
+    throw new Error("address is Already Registered, please use another wallet");
+}
+
 interface SignupCreatorParams {
   userAddress: Address;
   username: string;
@@ -56,6 +77,12 @@ export const signupCreator = async (params: SignupCreatorParams) => {
     });
 
     if (!walletClient) throw new Error("Wallet not connected");
+
+    // check if the user with this username or address is already registered
+    await checkCreatorAlreadyRegistred({
+      userAddress: params.userAddress,
+      username: params.username,
+    });
 
     // encode function data
     const data = encodeFunctionData({

@@ -2,6 +2,7 @@
 import LeaderBoardCard from "@/components/modules/LeaderBoard";
 import { truncateAddress } from "@/utils/utils";
 import { BiCoin, BiHeart, BiUser } from "react-icons/bi";
+import { toast } from "react-hot-toast";
 
 import { Supporter } from "@/stores/creator.store";
 
@@ -67,17 +68,17 @@ export default function DestopProfile({
     setAmount(_amount);
   };
 
-  // note: here
   const handleDonate = async () => {
     try {
       if (!address) {
-        alert("Please connect your wallet first");
+        toast(`Please connect your wallet first`, {});
         return;
       }
 
       if (amount < 10_000) {
-        alert(
-          `Minimum Donate 10000 IDRX but you just put ${amount.toString()} IDRX`
+        toast(
+          `Minimum Donate 10000 IDRX but you just put ${amount.toString()} IDRX`,
+          {}
         );
         return;
       }
@@ -112,8 +113,10 @@ export default function DestopProfile({
       setAmount(0);
       setMessage("");
       setOptionActive(-1);
+      toast.success(`Success Donate ${amount.toString()} IRDX`, {});
     } catch (error) {
       console.error("Donation error:", error);
+      toast.error(`Internal Server Error, Please Try Again Later`, {});
     } finally {
       setIsDonating(false);
     }

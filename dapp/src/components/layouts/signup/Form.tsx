@@ -10,6 +10,7 @@ import { joinSocials } from "@/utils/utils";
 import { useAccount } from "wagmi";
 import { signupCreator } from "@/services/creator.service";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 export default function SignUpForm() {
   const [username, setUsername] = useState("");
@@ -35,7 +36,7 @@ export default function SignUpForm() {
 
   const handleSignupCreator = async () => {
     if (!username || !name) {
-      setError("Username and name are required");
+      toast("Username and name are required", {});
       return;
     }
 
@@ -63,13 +64,13 @@ export default function SignUpForm() {
       });
 
       if (result.success) {
+        toast.success("Success Sign up, wait to redirect");
         router.push(`/`);
       } else {
         throw new Error("Signup failed");
       }
-    } catch (err) {
-      console.error("Signup failed:", err);
-      setError("Signup failed. Please try again.");
+    } catch (_err) {
+      toast.error("Signup failed. Please try again.");
     } finally {
       setIsLoading(false);
     }

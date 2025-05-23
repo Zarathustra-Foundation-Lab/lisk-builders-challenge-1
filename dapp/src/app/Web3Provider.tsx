@@ -6,6 +6,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { XellarKitProvider, darkTheme } from "@xellar/kit";
 import { wagmiConfig } from "../config/wagmi";
 
+import { Toaster } from "react-hot-toast";
+
 export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -21,6 +23,7 @@ export const Web3Provider = ({ children }: { children: React.ReactNode }) => {
       <QueryClientProvider client={queryClient}>
         <XellarKitProvider showConfirmationModal theme={darkTheme}>
           {children}
+          <Toaster position="top-right" />
         </XellarKitProvider>
       </QueryClientProvider>
     </WagmiProvider>
