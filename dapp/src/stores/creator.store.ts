@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Address } from "viem";
 
 import { getDonationLogs } from "@/utils/getDonationLogs";
-import { getCreatorByUsername } from "@/actions/creator.action";
+import { getCreatorByUsername } from "@/services/creator.service";
 
 interface CreatorDetail {
   image: string;
@@ -88,12 +88,12 @@ export function useCreatorData(username: string) {
     queryFn: async () => {
       setLoading(true);
       try {
-        const res = getCreatorByUsername(username);
+        const res = await getCreatorByUsername(username);
         setCreator({
-          creatorAddress: res.creator?.creatorAddress!,
-          detail: res.creator?.detail!,
-          isActive: res.creator?.isActive!,
-          username: res.creator?.username!,
+          creatorAddress: res.data?.creatorAddress!,
+          detail: res.data?.detail!,
+          isActive: res.data?.isActive!,
+          username: res.data?.username!,
           totalReceived: BigInt(0),
         });
         return res;

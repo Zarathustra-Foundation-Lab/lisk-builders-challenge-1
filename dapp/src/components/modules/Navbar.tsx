@@ -4,18 +4,15 @@ import Link from "next/link";
 
 import { ConnectButton } from "@xellar/kit";
 import { truncateAddress } from "@/utils/utils";
-import { useAccount } from "wagmi";
-import { useNavbarStore, useNavbarData } from "@/stores/navbar.store";
+import useNavbar from "@/hooks/useNavbar";
 
 export default function Navbar() {
-  const { address } = useAccount();
-  const { creator, idrxBalance, isLoading } = useNavbarStore();
-  useNavbarData(); // Initialize data fetching
+  const { address, creator, idrxBalance, isLoading, error } = useNavbar();
 
   return (
     <header className="w-full pt-2 bg-white z-50 relative">
       <nav className="flex justify-between items-center px-8 py-4 text-black">
-        <div className="font-semibold md:text-xl">
+        <Link href={"/"} className="font-semibold md:text-xl">
           <Image
             width={200}
             height={100}
@@ -23,14 +20,14 @@ export default function Navbar() {
             alt="Hertanate Icon"
             className="w-[100px] md:w-[120px] lg:w-[200px]"
           />
-        </div>
+        </Link>
 
         <div className="flex gap-x-7">
           {address && creator?.username && (
-            <ul className="">
+            <ul className="translate-y-2.5 hidden md:block">
               <Link
                 href={`/u/${creator.username}`}
-                className="font-montserrat text-xl font-medium hover:cursor-pointer hover:text-primary/70 transition-colors"
+                className="w-fit px-4 py-3 max-md:text-sm bg-[#6451AB] text-white rounded-lg font-medium shadow-lg hover:shadow-[#6451AB]/50 transition-all"
               >
                 Profile
               </Link>
@@ -53,7 +50,11 @@ export default function Navbar() {
                           {truncateAddress(account.address)}
                         </h6>
                         <h6 className="font-bold text-lg">
-                          {isLoading ? "Loading..." : `${idrxBalance} IDRX`}
+                          {isLoading ? (
+                            <span className="inline-block h-4 w-20 bg-gray-200 rounded animate-pulse"></span>
+                          ) : (
+                            `${idrxBalance} IDRX`
+                          )}
                         </h6>
                       </div>
                       <button

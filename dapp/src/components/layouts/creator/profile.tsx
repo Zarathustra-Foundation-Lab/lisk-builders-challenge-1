@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 // import { BiImageAdd, BiLink } from "react-icons/bi";
 import {
@@ -12,8 +12,11 @@ import {
 } from "react-icons/fa";
 import SocialLinks from "./socials";
 
-import { formatUnits } from "viem";
+import { formatUnits, isAddressEqual } from "viem";
 import { Creator } from "@/stores/creator.store";
+import { useAccount } from "wagmi";
+import { FiSettings } from "react-icons/fi";
+import EditModalCreator from "./edit";
 
 const getIconForDomain = (domain: string) => {
   switch (domain) {
@@ -38,6 +41,10 @@ interface Props {
 }
 
 export default function Profile({ creator, totalSupporters }: Props) {
+  const [editModalShow, setEditModalShow] = useState<boolean>(false);
+
+  const { address } = useAccount();
+
   return (
     <div className="w-full bg-white rounded-lg shadow-lg p-4 h-fit">
       <div className="flex flex-col items-center gap-4">
@@ -47,8 +54,27 @@ export default function Profile({ creator, totalSupporters }: Props) {
             <div className="text-center text-white"></div>
           </div>
         </div>
+
         {/* creator detail */}
-        <div className="py-6 flex items-center flex-col gap-4 w-full">
+        <div className="py-6 flex items-center flex-col gap-4 w-full relative">
+          <div className="">
+            {address &&
+              creator.creatorAddress &&
+              isAddressEqual(address, creator.creatorAddress!) && (
+                <div className="absolute right-0 top-0 px-2 py-1 border border-primary text-sm text-primary rounded-lg hover:bg-primary/20 transition-all cursor-pointer">
+                  <FiSettings
+                    onClick={() => setEditModalShow(!editModalShow)}
+                  />
+                </div>
+              )}
+            {editModalShow && (
+              <EditModalCreator
+                creator={creator}
+                setEditModalActive={setEditModalShow}
+              />
+            )}
+          </div>
+
           <label className="w-32 h-32 rounded-full bg-primary/20 overflow-hidden cursor-pointer hover:bg-primary/30 transition-colors relative group">
             <Image
               width={400}
@@ -101,7 +127,6 @@ export default function Profile({ creator, totalSupporters }: Props) {
               .filter((link) => link.trim() !== "")
               .map((link, idx) => {
                 try {
-                  // console.log(link);
                   if (!link.startsWith("https://")) {
                     link = `https://${link}`;
                   }
@@ -109,7 +134,6 @@ export default function Profile({ creator, totalSupporters }: Props) {
                   const url = new URL(link);
                   const domain = url.hostname.replace("www.", "");
 
-                  console.log(domain);
                   return (
                     <SocialLinks
                       key={`socials-creator-${idx}`}

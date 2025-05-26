@@ -6,9 +6,11 @@ import CreatorInformation from "./CreatorInformation";
 import SocialsField from "./SocialsField";
 
 import { ConnectButton } from "@xellar/kit";
-import { signupCreator } from "@/actions/creator.action";
-import { joinSocials } from "@/utils/utils";
-import { useAccount, useWalletClient } from "wagmi";
+import { joinSocials, truncateAddress } from "@/utils/utils";
+import { useAccount } from "wagmi";
+import { getCreatorByAddress, signupCreator } from "@/services/creator.service";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 export default function SignUpForm() {
   const [username, setUsername] = useState("");
@@ -27,13 +29,14 @@ export default function SignUpForm() {
   });
 
   const { address } = useAccount();
+  const router = useRouter();
 
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const handleSignupCreator = async () => {
     if (!username || !name) {
-      setError("Username and name are required");
+      toast("Username and name are required", {});
       return;
     }
 
@@ -51,9 +54,7 @@ export default function SignUpForm() {
 
       const socialsString = joinSocials(socialArray);
 
-      console.log(socialsString);
-
-      await signupCreator({
+      const result = await signupCreator({
         userAddress: address!,
         username,
         displayName: name,
@@ -61,13 +62,36 @@ export default function SignUpForm() {
         description: bio,
         socials: socialsString,
       });
-    } catch (err) {
-      console.error("Signup failed:", err);
-      setError("Signup failed. Please try again.");
+
+      if (result.success) {
+        toast.success("Success Sign up, wait to redirect");
+        router.push(`/`);
+      } else {
+        throw new Error("Signup failed");
+      }
+    } catch (_err) {
+      toast.error("Signup failed. Please try again.");
     } finally {
       setIsLoading(false);
     }
   };
+
+  if (address) {
+    (async () => {
+      const creator = await getCreatorByAddress(address);
+
+      if (creator.data.isActive) {
+        toast.success(
+          `Creator with address ${truncateAddress(
+            creator.data.creatorAddress
+          )} is already exist, redirect to profile`
+        );
+
+        setTimeout(() => router.push(`/u/${creator.data.username}`), 3000);
+        return;
+      }
+    })();
+  }
 
   return (
     <div className="w-full md:w-lg h-max bg-white rounded-lg shadow-lg flex flex-col gap-8 p-4">
@@ -82,56 +106,54 @@ export default function SignUpForm() {
 
       <div className="gap-8 flex flex-col">
         {/* step 1 */}
-        {!address && (
-          <div className="flex flex-col gap-8">
-            <p className="text-lg font-medium flex gap-2 items-center">
-              <span className="text-base bg-gradient-to-r from-primary to-[#d33f6e] text-white font-medium px-2 rounded-full">
-                1
-              </span>
-              Connect Wallet
-            </p>
-            <div className="relative z-10 group">
-              {!address && (
-                <Image
-                  width={100}
-                  height={100}
-                  src="/herta_hold_hat.gif"
-                  alt="Herta Pointing To You"
-                  className="w-12 -top-7 group-hover:-top-8 transition-all left-0 absolute -z-10"
-                />
-              )}
-              <ConnectButton.Custom
-                children={({
-                  openConnectModal,
-                  account,
-                  isConnected,
-                  openProfileModal,
-                }) => {
-                  if (isConnected && account?.address) {
-                    return (
-                      <h6
-                        onClick={() => openProfileModal()}
-                        className="w-full py-3 px-5 rounded-lg font-medium text-white  bg-gradient-to-r from-primary to-[#d33f6e] truncate cursor-pointer"
-                      >
-                        {account.address}
-                      </h6>
-                    );
-                  }
-
-                  return (
-                    <button
-                      onClick={() => openConnectModal()}
-                      className="w-full mt-4 px-4 py-3 bg-gradient-to-r from-primary to-[#d33f6e] text-white rounded-lg font-medium shadow-lg hover:shadow-primary/50 transition-all group-hover:-translate-y-1 flex items-center justify-center gap-2"
-                    >
-                      <BiWallet className="bx bx-wallet text-xl"></BiWallet>
-                      Connect Wallet
-                    </button>
-                  );
-                }}
+        <div className="flex flex-col gap-8">
+          <p className="text-lg font-medium flex gap-2 items-center">
+            <span className="text-base bg-gradient-to-r from-primary to-[#d33f6e] text-white font-medium px-2 rounded-full">
+              1
+            </span>
+            Connect Wallet
+          </p>
+          <div className="relative z-10 group">
+            {!address && (
+              <Image
+                width={100}
+                height={100}
+                src="/herta_hold_hat.gif"
+                alt="Herta Pointing To You"
+                className="w-12 -top-7 group-hover:-top-8 transition-all left-0 absolute -z-10"
               />
-            </div>
+            )}
+            <ConnectButton.Custom
+              children={({
+                openConnectModal,
+                account,
+                isConnected,
+                openProfileModal,
+              }) => {
+                if (isConnected && account?.address) {
+                  return (
+                    <h6
+                      onClick={() => openProfileModal()}
+                      className="w-full py-3 px-5 rounded-lg font-medium text-white  bg-gradient-to-r from-primary to-[#d33f6e] truncate cursor-pointer"
+                    >
+                      {account.address}
+                    </h6>
+                  );
+                }
+
+                return (
+                  <button
+                    onClick={() => openConnectModal()}
+                    className="w-full mt-4 px-4 py-3 bg-gradient-to-r from-primary to-[#d33f6e] text-white rounded-lg font-medium shadow-lg hover:shadow-primary/50 transition-all group-hover:-translate-y-1 flex items-center justify-center gap-2"
+                  >
+                    <BiWallet className="bx bx-wallet text-xl"></BiWallet>
+                    Connect Wallet
+                  </button>
+                );
+              }}
+            />
           </div>
-        )}
+        </div>
 
         {/* step 2 */}
         {address && (
