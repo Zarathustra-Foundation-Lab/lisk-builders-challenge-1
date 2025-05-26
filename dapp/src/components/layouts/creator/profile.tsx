@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 // import { BiImageAdd, BiLink } from "react-icons/bi";
 import {
@@ -12,8 +12,12 @@ import {
 } from "react-icons/fa";
 import SocialLinks from "./socials";
 
-import { formatUnits } from "viem";
+import { Address, formatUnits, isAddressEqual } from "viem";
 import { Creator } from "@/stores/creator.store";
+import { useAccount } from "wagmi";
+import { getCreatorByAddress } from "@/services/creator.service";
+import { FiSettings } from "react-icons/fi";
+import EditModalCreator from "./edit";
 
 const getIconForDomain = (domain: string) => {
   switch (domain) {
@@ -38,6 +42,8 @@ interface Props {
 }
 
 export default function Profile({ creator, totalSupporters }: Props) {
+  const { address } = useAccount();
+
   return (
     <div className="w-full bg-white rounded-lg shadow-lg p-4 h-fit">
       <div className="flex flex-col items-center gap-4">
@@ -47,8 +53,21 @@ export default function Profile({ creator, totalSupporters }: Props) {
             <div className="text-center text-white"></div>
           </div>
         </div>
+
         {/* creator detail */}
-        <div className="py-6 flex items-center flex-col gap-4 w-full">
+        <div className="py-6 flex items-center flex-col gap-4 w-full relative">
+          <div className="">
+            {address &&
+              creator.creatorAddress &&
+              isAddressEqual(address, creator.creatorAddress!) && (
+                <div className="absolute right-0 top-0 px-2 py-1 border border-primary text-sm text-primary rounded-lg hover:bg-primary/20 transition-all cursor-pointer">
+                  <FiSettings />
+                </div>
+              )}
+
+            {/* <EditModalCreator /> */}
+          </div>
+
           <label className="w-32 h-32 rounded-full bg-primary/20 overflow-hidden cursor-pointer hover:bg-primary/30 transition-colors relative group">
             <Image
               width={400}
