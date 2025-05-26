@@ -12,6 +12,7 @@ import {
   getRecentDonations,
   getTopSupporters,
 } from "@/services/donations.service";
+import EditModalCreator from "@/components/layouts/creator/edit";
 
 export default function CreatorPage() {
   const params = useParams<{ username: string }>() || "";

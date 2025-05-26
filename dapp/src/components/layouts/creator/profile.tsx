@@ -12,10 +12,9 @@ import {
 } from "react-icons/fa";
 import SocialLinks from "./socials";
 
-import { Address, formatUnits, isAddressEqual } from "viem";
+import { formatUnits, isAddressEqual } from "viem";
 import { Creator } from "@/stores/creator.store";
 import { useAccount } from "wagmi";
-import { getCreatorByAddress } from "@/services/creator.service";
 import { FiSettings } from "react-icons/fi";
 import EditModalCreator from "./edit";
 
@@ -42,6 +41,8 @@ interface Props {
 }
 
 export default function Profile({ creator, totalSupporters }: Props) {
+  const [editModalShow, setEditModalShow] = useState<boolean>(false);
+
   const { address } = useAccount();
 
   return (
@@ -61,11 +62,17 @@ export default function Profile({ creator, totalSupporters }: Props) {
               creator.creatorAddress &&
               isAddressEqual(address, creator.creatorAddress!) && (
                 <div className="absolute right-0 top-0 px-2 py-1 border border-primary text-sm text-primary rounded-lg hover:bg-primary/20 transition-all cursor-pointer">
-                  <FiSettings />
+                  <FiSettings
+                    onClick={() => setEditModalShow(!editModalShow)}
+                  />
                 </div>
               )}
-
-            {/* <EditModalCreator /> */}
+            {editModalShow && (
+              <EditModalCreator
+                creator={creator}
+                setEditModalActive={setEditModalShow}
+              />
+            )}
           </div>
 
           <label className="w-32 h-32 rounded-full bg-primary/20 overflow-hidden cursor-pointer hover:bg-primary/30 transition-colors relative group">
