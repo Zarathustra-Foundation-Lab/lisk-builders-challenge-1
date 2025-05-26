@@ -24,10 +24,10 @@ export default function Navbar() {
 
         <div className="flex gap-x-7">
           {address && creator?.username && (
-            <ul className="">
+            <ul className="translate-y-2.5 hidden md:block">
               <Link
                 href={`/u/${creator.username}`}
-                className="font-montserrat text-xl font-medium hover:cursor-pointer hover:text-primary/70 transition-colors"
+                className="w-fit px-4 py-3 max-md:text-sm bg-[#6451AB] text-white rounded-lg font-medium shadow-lg hover:shadow-[#6451AB]/50 transition-all"
               >
                 Profile
               </Link>

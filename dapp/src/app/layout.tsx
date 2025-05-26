@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Web3Provider } from "./Web3Provider";
 import { monstrerat, inter } from "../utils/fonts";
+import { Suspense } from "react";
+import Loading from "./loading";
 
 export const metadata: Metadata = {
   title: "Hertanate",

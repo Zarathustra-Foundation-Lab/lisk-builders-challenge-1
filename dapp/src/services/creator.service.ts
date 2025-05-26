@@ -46,13 +46,19 @@ async function checkCreatorAlreadyRegistred({
   const addressIsRegistered = (await getCreatorByAddress(userAddress)).data
     .isActive;
 
-  if (usernameIsRegistered)
+  if (usernameIsRegistered) {
     throw new Error(
       "username is Already Registered, please use another username"
     );
+    return true;
+  }
 
-  if (addressIsRegistered)
+  if (addressIsRegistered) {
     throw new Error("address is Already Registered, please use another wallet");
+    return true;
+  }
+
+  return false;
 }
 
 interface SignupCreatorParams {
