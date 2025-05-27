@@ -1,4 +1,19 @@
+"use client";
 import { BiMedal, BiCrown, BiStar, BiDiamond } from "react-icons/bi";
+
+import { motion } from "framer-motion";
+
+const fadeInUp = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.6,
+      ease: "easeOut",
+    },
+  },
+};
 
 export default function TierSection() {
   return (
@@ -7,7 +22,11 @@ export default function TierSection() {
         <h2 className="text-4xl font-bold text-[#6451AB]">Tier Rewards</h2>
 
         <div className="grid grid-cols-2 grid-rows-2 md:flex flex-col md:flex-row items-center justify-center gap-8 w-full">
-          <div className="flex flex-col items-center text-center space-y-4 max-w-xs scale-90">
+          <motion.div
+            initial={fadeInUp.hidden}
+            whileInView={fadeInUp.visible}
+            className="flex flex-col items-center text-center space-y-4 max-w-xs scale-90"
+          >
             <div className="w-12 h-12 md:w-20 md:h-20 bg-gradient-to-br from-[#CD7F32] to-[#B87333] rounded-full flex items-center justify-center group-hover:scale-110 transition-all">
               <BiMedal className="bx bxs-medal text-lg md:text-4xl text-white"></BiMedal>
             </div>
@@ -18,9 +37,13 @@ export default function TierSection() {
               Special Bronze Badge, Basic Profile Customization, Monthly
               Newsletter
             </p>
-          </div>
+          </motion.div>
 
-          <div className="flex flex-col items-center text-center space-y-4 max-w-xs scale-95">
+          <motion.div
+            initial={fadeInUp.hidden}
+            whileInView={fadeInUp.visible}
+            className="flex flex-col items-center text-center space-y-4 max-w-xs scale-95"
+          >
             <div className="w-14 h-14 md:w-24 md:h-24 bg-gradient-to-br from-[#C0C0C0] to-[#A8A8A8] rounded-full flex items-center justify-center group-hover:scale-110 transition-all">
               <BiCrown className="bx bxs-crown text-xl md:text-5xl text-white"></BiCrown>
             </div>
@@ -31,9 +54,13 @@ export default function TierSection() {
               Exclusive Silver Badge, Premium Chat Access, Early Access to
               Events
             </p>
-          </div>
+          </motion.div>
 
-          <div className="flex flex-col items-center text-center space-y-4 max-w-xs scale-100">
+          <motion.div
+            initial={fadeInUp.hidden}
+            whileInView={fadeInUp.visible}
+            className="flex flex-col items-center text-center space-y-4 max-w-xs scale-100"
+          >
             <div className="w-16 h-16 md:w-28 md:h-28 bg-gradient-to-br from-[#FFD700] to-[#FFA500] rounded-full flex items-center justify-center group-hover:scale-110 transition-all">
               <BiStar className="bx bxs-star text-2xl md:text-6xl text-white"></BiStar>
             </div>
@@ -41,9 +68,13 @@ export default function TierSection() {
             <p className="text-sm text-gray-600">
               Premium Gold Badge, Limited Edition Merch, VIP Community Access
             </p>
-          </div>
+          </motion.div>
 
-          <div className="flex flex-col items-center text-center space-y-4 max-w-xs scale-105">
+          <motion.div
+            initial={fadeInUp.hidden}
+            whileInView={fadeInUp.visible}
+            className="flex flex-col items-center text-center space-y-4 max-w-xs scale-105"
+          >
             <div className="w-[4.5rem] h-[4.5rem] md:w-32 md:h-32 bg-gradient-to-br from-[#B9F2FF] to-[#87CEEB] rounded-full flex items-center justify-center group-hover:scale-110 transition-all">
               <BiDiamond className="bx bxs-diamond text-3xl md:text-7xl text-white"></BiDiamond>
             </div>
@@ -53,7 +84,7 @@ export default function TierSection() {
             <p className="text-sm text-gray-600">
               Legendary Crystal Badge, Exclusive Events, Custom Profile Themes
             </p>
-          </div>
+          </motion.div>
         </div>
       </div>
     </div>

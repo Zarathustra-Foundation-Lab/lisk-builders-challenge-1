@@ -1,27 +1,67 @@
+"use client";
 import Image from "next/image";
 import Link from "next/link";
+import { motion } from "framer-motion";
+
+const fadeInUp = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.6,
+      ease: "easeOut",
+    },
+  },
+};
+
+const staggerContainer = {
+  visible: {
+    transition: {
+      staggerChildren: 0.1,
+    },
+  },
+};
 
 export default function HeroSection() {
   return (
-    <div className="w-full h-[80vh] lg:h-screen  bg-[#ffeff9fa]" id="hero">
-      <div className="h-full flex items-center px-8 z-40  lg:-translate-y-20">
-        <div className="w-full lg:w-1/2 max-md:h-full flex flex-col justify-center max-md:items-center gap-6">
-          <div className="">
-            <h1 className="text-3xl md:text-5xl font-semibold text-center md:text-left">
+    <div className="w-full h-[80vh] lg:h-screen bg-[#ffeff9fa]" id="hero">
+      <motion.div
+        className="h-full flex items-center px-8 z-40 lg:-translate-y-20"
+        initial="hidden"
+        animate="visible"
+        variants={staggerContainer}
+      >
+        <motion.div
+          className="w-full lg:w-1/2 max-md:h-full flex flex-col justify-center max-md:items-center gap-6"
+          variants={staggerContainer}
+        >
+          <motion.div variants={fadeInUp}>
+            <motion.h1 className="text-3xl md:text-5xl font-semibold text-center md:text-left">
               Hertanate <br className="hidden md:block" />
               <span className="bg-gradient-to-r from-[#806699] to-[#846ae4] text-transparent bg-clip-text">
                 Decentralized{"\u00A0"}
               </span>
               <span className="md:hidden">Donation</span>
               <span className="hidden md:inline">Donation for Creators</span>
-            </h1>
-            <p className="text-base md:text-xl font-light text-gray-600 text-center md:text-left">
+            </motion.h1>
+            <motion.p
+              className="text-base md:text-xl font-light text-gray-600 text-center md:text-left"
+              variants={fadeInUp}
+            >
               Dukung kreator favoritmu dengan transparansi dan teknologi
               blockchain
-            </p>
-          </div>
+            </motion.p>
+          </motion.div>
 
-          <div className="relative z-10 group w-max">
+          <motion.div
+            className="relative z-10 group w-max"
+            variants={fadeInUp}
+            whileHover={{
+              scale: 1.05,
+              transition: { type: "spring", stiffness: 400, damping: 10 },
+            }}
+          >
             <Image
               width={48}
               height={48}
@@ -31,14 +71,25 @@ export default function HeroSection() {
             />
             <Link
               href={"/sign-up"}
-              className="w-fit px-8 py-3 bg-[#6451AB] text-white rounded-lg font-medium shadow-lg hover:shadow-[#6451AB]/50 transition-all hover:-translate-y-1"
+              className="w-fit px-8 py-3 bg-[#6451AB] text-white rounded-lg font-medium shadow-lg hover:shadow-[#6451AB]/50 transition-all"
             >
               Get Started
             </Link>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
 
-        <div className="w-full max-w-fit mx-auto hidden md:w-1/2 max-md:order-first lg:flex justify-center items-center relative">
+        <motion.div
+          className="w-full max-w-fit mx-auto hidden md:w-1/2 max-md:order-first lg:flex justify-center items-center relative"
+          variants={fadeInUp}
+          animate={{
+            y: [0, -15, 0],
+            transition: {
+              duration: 4,
+              repeat: Infinity,
+              ease: "easeInOut",
+            },
+          }}
+        >
           {/* herta */}
           <div className="max-md:hidden absolute right-30 -bottom-15 z-10">
             <Image
@@ -47,12 +98,12 @@ export default function HeroSection() {
               width={270}
               src="/hero-hertanate.png"
               alt="The Herta"
-              className="-translate-x-10 "
+              className="max-md:hidden -translate-x-10 "
             />
           </div>
 
           {/* eth card */}
-          <div className="relative w-lg h-60">
+          <motion.div className="relative w-lg h-60">
             <div className="w-72 h-32 md:w-70 md:h-38 absolute -bottom-10 left-0 animate-floating bg-gradient-to-br from-[#806699]/85 to-[#6451AB]/85 rounded-2xl p-6  overflow-hidden shadow-xl z-30 hover:shadow-[#6451AB]/50 transition-all hover:-translate-y-1">
               <div className="absolute -top-16 -right-16 w-32 h-32 bg-white/20 rounded-full blur-2xl"></div>
               <div className="absolute -bottom-16 -left-16 w-32 h-32 bg-white/20 rounded-full blur-2xl"></div>
@@ -114,9 +165,9 @@ export default function HeroSection() {
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-      </div>
+          </motion.div>
+        </motion.div>
+      </motion.div>
     </div>
   );
 }

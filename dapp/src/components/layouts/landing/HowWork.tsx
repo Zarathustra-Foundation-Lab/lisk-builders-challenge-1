@@ -1,7 +1,10 @@
+"use client";
 import Image from "next/image";
 import React from "react";
 import { BiChevronDown, BiChevronRight } from "react-icons/bi";
 import LeaderBoardCard from "../../modules/LeaderBoard";
+
+import { motion } from "framer-motion";
 
 export default function HowItWorkSection() {
   return (
@@ -10,7 +13,18 @@ export default function HowItWorkSection() {
         How It Works
       </h2>
       <div className="grid grid-cols-1 lg:grid-cols-2 w-full lg:gap-x-5">
-        <div className="flex flex-col md:flex-row items-center justify-center col-span-1 ">
+        <motion.div
+          initial={{
+            translateX: -40,
+          }}
+          whileInView={{
+            translateX: 0,
+          }}
+          transition={{
+            duration: 0.5,
+          }}
+          className="flex flex-col md:flex-row items-center justify-center col-span-1 "
+        >
           {StepData.map((item, idx) => {
             return (
               <StepWork
@@ -22,12 +36,23 @@ export default function HowItWorkSection() {
               />
             );
           })}
-        </div>
+        </motion.div>
 
         {/* leader board */}
-        <div className="hidden lg:block w-fit mx-auto">
+        <motion.div
+          initial={{
+            translateX: 40,
+          }}
+          whileInView={{
+            translateX: 0,
+          }}
+          transition={{
+            duration: 0.5,
+          }}
+          className="hidden lg:block w-fit mx-auto"
+        >
           <LeaderBoardCard type="dummy" title="Top Supporters" />
-        </div>
+        </motion.div>
       </div>
     </div>
   );
@@ -43,7 +68,7 @@ interface StepProps {
 const StepWork = (props: StepProps & { isLast: boolean }) => {
   return (
     <>
-      <div className="w-full flex flex-col items-center text-center gap-2 max-w-xs">
+      <motion.div className="w-full flex flex-col items-center text-center gap-2 max-w-xs">
         <div className="rounded-full bg-[#dec5fb]/50 p-1">
           <Image
             src={props.icon ?? "/hertanate-assets/how-work/hw-1.png"}
@@ -55,9 +80,9 @@ const StepWork = (props: StepProps & { isLast: boolean }) => {
         </div>
         <h3 className="text-xl font-semibold text-[#6451AB]">{props.title}</h3>
         <p className="text-sm text-gray-600">{props.subTitile}</p>
-      </div>
+      </motion.div>
 
-      <div className="">
+      <motion.div className="">
         {!props.isLast && (
           <div className="flex items-center justify-center">
             <BiChevronRight
@@ -70,7 +95,7 @@ const StepWork = (props: StepProps & { isLast: boolean }) => {
             />
           </div>
         )}
-      </div>
+      </motion.div>
     </>
   );
 };

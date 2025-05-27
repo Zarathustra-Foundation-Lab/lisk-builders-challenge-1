@@ -14,8 +14,30 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Hertanate",
-  description: "",
+  icons: "/herta_excited.jpg",
+  title: "Hertanate - Blockchain-powered Creator Donation Platform",
+  description:
+    "Support your favorite creators with IDRX tokens. A transparent, decentralized donation platform with leaderboards and instant payouts powered by blockchain technology.",
+  openGraph: {
+    title: "Hertanate - Blockchain Creator Donations",
+    description:
+      "Empower creators through crypto donations with our decentralized platform. Simple, secure transactions with IDRX tokens.",
+    images: [
+      {
+        url: "/hertanate-assets/hertanate-icon.svg",
+        width: 800,
+        height: 600,
+        alt: "Hertanate Logo",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Hertanate - Donate to Creators with Crypto",
+    description:
+      "Support creators you love using IDRX tokens with our transparent blockchain donation platform",
+    images: ["/hertanate-assets/hertanate-icon.svg"],
+  },
 };
 
 export default function RootLayout({
