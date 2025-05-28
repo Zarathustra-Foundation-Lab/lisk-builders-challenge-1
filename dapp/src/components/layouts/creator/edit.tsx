@@ -2,7 +2,7 @@
 import { EditCreatorDetail } from "@/services/creator.service";
 import { Creator } from "@/stores/creator.store";
 import { joinSocials } from "@/utils/utils";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import {
   BiLink,
@@ -11,8 +11,8 @@ import {
   BiLogoTwitter,
   BiLogoYoutube,
 } from "react-icons/bi";
-import { isAddressEqual } from "viem";
-import { useAccount } from "wagmi";
+import { Address, isAddressEqual } from "viem";
+import { useWalletClient } from "wagmi";
 
 type SocialTypeHandleChange =
   | "facebook"
@@ -22,6 +22,7 @@ type SocialTypeHandleChange =
   | "additional";
 
 interface Props {
+  address: Address;
   creator: Creator;
   setEditModalActive: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -58,22 +59,24 @@ function ParseUrlSocials(socials: string) {
 }
 
 export default function EditModalCreator({
+  address,
   creator,
   setEditModalActive,
 }: Props) {
   const social = ParseUrlSocials(creator.detail.socials);
-  const { address } = useAccount();
+
+  // const {} = useWalletClient()
 
   // states
-  const [name, setName] = useState(creator.detail.name);
-  const [bio, setBio] = useState(creator.detail.bio);
+  const [name, setName] = useState<string>("");
+  const [bio, setBio] = useState<string>("");
   // const [imageProfule, setImageProfile] = useState(creator.detail.image);
   const [socials, setSocials] = useState({
-    facebook: social.facebook,
-    instagram: social.instagram,
-    twitter: social.twitter,
-    youtube: social.youtube,
-    additional: social.additional,
+    facebook: "",
+    instagram: "",
+    twitter: "",
+    youtube: "",
+    additional: "",
   });
 
   const handleChangeSocialInput = (
@@ -119,6 +122,18 @@ export default function EditModalCreator({
       toast.error("Internal Server Error, please try again later");
     }
   };
+
+  useEffect(() => {
+    setName(creator.detail.name);
+    setBio(creator.detail.bio);
+    setSocials({
+      facebook: social.facebook,
+      instagram: social.instagram,
+      twitter: social.twitter,
+      youtube: social.youtube,
+      additional: social.additional,
+    });
+  }, []);
 
   return (
     <div className="fixed inset-0 bg-white/20 bg-opacity-50 flex items-center justify-center p-4 z-50">

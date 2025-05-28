@@ -21,9 +21,6 @@ export async function getAccountBalance(address: Address) {
     args: [address],
   });
 
-  console.log("get balance");
-  console.log(data);
-
   // Currently using mock value since ABI doesn't expose balance function
   return {
     // data: BigInt(1000000000000000000), // Mock 1 IDRX

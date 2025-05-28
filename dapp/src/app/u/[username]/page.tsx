@@ -12,7 +12,6 @@ import {
   getRecentDonations,
   getTopSupporters,
 } from "@/services/donations.service";
-import EditModalCreator from "@/components/layouts/creator/edit";
 
 export default function CreatorPage() {
   const params = useParams<{ username: string }>() || "";
@@ -54,7 +53,7 @@ export default function CreatorPage() {
     );
   }
 
-  if (!creator) {
+  if (!creator?.isActive) {
     return (
       <div className="h-full flex justify-center items-center">
         <h2 className="font-medium text-2xl text-center">Creator Not Found</h2>

@@ -69,6 +69,7 @@ export default function Profile({ creator, totalSupporters }: Props) {
               )}
             {editModalShow && (
               <EditModalCreator
+                address={address!}
                 creator={creator}
                 setEditModalActive={setEditModalShow}
               />

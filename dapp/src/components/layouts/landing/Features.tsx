@@ -49,6 +49,7 @@ export default function FeatureSection() {
         {DATA.map((item, idx) => {
           return (
             <motion.div
+              key={`feature-card-${idx}`}
               initial={fadeInUp.hidden}
               whileInView={fadeInUp.visible}
             >

@@ -1,4 +1,10 @@
-import { Address, encodeFunctionData, custom, createWalletClient } from "viem";
+import {
+  Address,
+  encodeFunctionData,
+  custom,
+  createWalletClient,
+  http,
+} from "viem";
 
 import { liskSepolia } from "viem/chains";
 import { HertanateABI } from "@/constants/abi";
@@ -140,47 +146,55 @@ interface EditCreatorParams {
 }
 
 export const EditCreatorDetail = async (params: EditCreatorParams) => {
-  // get etherium provider
-  const _window = window as unknown as any;
+  try {
+    // get etherium provider
+    const _window = window as unknown as any;
 
-  // get wallet client
-  const walletClient = createWalletClient({
-    account: params.userAddress,
-    chain: liskSepolia,
-    transport: custom(_window.ethereum!),
-  });
+    // get wallet client
+    const walletClient = createWalletClient({
+      account: params.userAddress,
+      chain: liskSepolia,
+      transport: custom(_window.ethereum!) || http(),
+    });
 
-  if (!walletClient) throw new Error("Wallet not connected");
+    if (!walletClient) throw new Error("Wallet not connected");
 
-  // encode function data
-  const data = encodeFunctionData({
-    abi: HertanateABI,
-    functionName: "editCreatorProfile",
-    args: [
-      params.displayName,
-      params.image,
-      params.description,
-      params.socials,
-    ],
-  });
+    // encode function data
+    const data = encodeFunctionData({
+      abi: HertanateABI,
+      functionName: "editCreatorProfile",
+      args: [
+        params.displayName,
+        params.image,
+        params.description,
+        params.socials,
+      ],
+    });
 
-  // payload for gelato sponsor gass
-  const request: CallWithERC2771Request = {
-    chainId: BigInt(liskSepolia.id),
-    target: CONFIG.LISK_SEPOLIA.HERTANATE_ADDRESS,
-    data: data,
-    user: params.userAddress,
-  };
+    // payload for gelato sponsor gass
+    const request: CallWithERC2771Request = {
+      chainId: BigInt(liskSepolia.id),
+      target: CONFIG.LISK_SEPOLIA.HERTANATE_ADDRESS,
+      data: data,
+      user: params.userAddress,
+    };
 
-  // triger function to smart contract using gelato as relayer for gassless transaction
-  const response = await relay.sponsoredCallERC2771(
-    request,
-    walletClient,
-    CONFIG.GELATO_API_KEY
-  );
+    // triger function to smart contract using gelato as relayer for gassless transaction
+    const response = await relay.sponsoredCallERC2771(
+      request,
+      walletClient,
+      CONFIG.GELATO_API_KEY
+    );
 
-  return {
-    success: true,
-    txHash: response.taskId,
-  };
+    return {
+      success: true,
+      txHash: response.taskId,
+    };
+  } catch (error) {
+    console.error("Error Edit creator Profile:", error);
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : "Unknown error",
+    };
+  }
 };
