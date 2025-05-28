@@ -57,7 +57,7 @@ export default function Profile({ creator, totalSupporters }: Props) {
 
         {/* creator detail */}
         <div className="py-6 flex items-center flex-col gap-4 w-full relative">
-          <div className="">
+          {/* <div className="">
             {address &&
               creator.creatorAddress &&
               isAddressEqual(address, creator.creatorAddress!) && (
@@ -74,7 +74,7 @@ export default function Profile({ creator, totalSupporters }: Props) {
                 setEditModalActive={setEditModalShow}
               />
             )}
-          </div>
+          </div> */}
 
           <label className="w-32 h-32 rounded-full bg-primary/20 overflow-hidden cursor-pointer hover:bg-primary/30 transition-colors relative group">
             <Image

@@ -12,7 +12,6 @@ import {
   BiLogoYoutube,
 } from "react-icons/bi";
 import { Address, isAddressEqual } from "viem";
-import { useWalletClient } from "wagmi";
 
 type SocialTypeHandleChange =
   | "facebook"
@@ -92,7 +91,7 @@ export default function EditModalCreator({
   // handler for edit
   const handlerEditProfile = async () => {
     try {
-      if (!address || !isAddressEqual(address, creator.creatorAddress)) {
+      if (!address) {
         throw new Error("Address Not Found");
       }
 
