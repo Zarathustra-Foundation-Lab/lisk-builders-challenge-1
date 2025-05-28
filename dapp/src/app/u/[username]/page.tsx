@@ -53,13 +53,13 @@ export default function CreatorPage() {
     );
   }
 
-  if (!creator?.isActive) {
-    return (
-      <div className="h-full flex justify-center items-center">
-        <h2 className="font-medium text-2xl text-center">Creator Not Found</h2>
-      </div>
-    );
-  }
+  // if (!creator) {
+  //   return (
+  //     <div className="h-full flex justify-center items-center">
+  //       <h2 className="font-medium text-2xl text-center">Creator Not Found</h2>
+  //     </div>
+  //   );
+  // }
 
   return (
     <>
@@ -69,13 +69,13 @@ export default function CreatorPage() {
       <div className="w-full min-h-dvh flex justify-center bg-primary/5">
         <div className="w-full min-h-dvh flex flex-col lg:grid grid-cols-[1fr_3fr] grid-rows-1 gap-4 p-4 md:p-8">
           {/* <!-- User Profile Section & Mobile show --> */}
-          <Profile creator={creator} totalSupporters={topSupporters.length} />
+          <Profile creator={creator!} totalSupporters={topSupporters.length} />
 
           {/* <!-- Main Content Section & Destop Show --> */}
           <DestopProfile
             recentDonations={recentDonations}
             topSupporters={topSupporters}
-            creatorAddress={creator.creatorAddress!}
+            creatorAddress={creator!.creatorAddress!}
           />
         </div>
       </div>

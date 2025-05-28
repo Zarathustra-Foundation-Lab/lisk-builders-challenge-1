@@ -37,6 +37,8 @@ export async function getCreatorByUsername(username: string) {
     args: [username],
   });
 
+  console.log({ creator });
+
   return { data: creator };
 }
 
