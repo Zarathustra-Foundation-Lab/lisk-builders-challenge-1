@@ -130,3 +130,57 @@ export const signupCreator = async (params: SignupCreatorParams) => {
     };
   }
 };
+
+interface EditCreatorParams {
+  userAddress: Address;
+  displayName: string;
+  image: string;
+  description: string;
+  socials: string;
+}
+
+export const EditCreatorDetail = async (params: EditCreatorParams) => {
+  // get etherium provider
+  const _window = window as unknown as any;
+
+  // get wallet client
+  const walletClient = createWalletClient({
+    account: params.userAddress,
+    chain: liskSepolia,
+    transport: custom(_window.ethereum!),
+  });
+
+  if (!walletClient) throw new Error("Wallet not connected");
+
+  // encode function data
+  const data = encodeFunctionData({
+    abi: HertanateABI,
+    functionName: "editCreatorProfile",
+    args: [
+      params.displayName,
+      params.image,
+      params.description,
+      params.socials,
+    ],
+  });
+
+  // payload for gelato sponsor gass
+  const request: CallWithERC2771Request = {
+    chainId: BigInt(liskSepolia.id),
+    target: CONFIG.LISK_SEPOLIA.HERTANATE_ADDRESS,
+    data: data,
+    user: params.userAddress,
+  };
+
+  // triger function to smart contract using gelato as relayer for gassless transaction
+  const response = await relay.sponsoredCallERC2771(
+    request,
+    walletClient,
+    CONFIG.GELATO_API_KEY
+  );
+
+  return {
+    success: true,
+    txHash: response.taskId,
+  };
+};

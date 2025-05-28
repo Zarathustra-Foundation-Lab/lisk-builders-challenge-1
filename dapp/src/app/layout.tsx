@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Montserrat_Subrayada, Inter } from "next/font/google";
 import "./globals.css";
 import { Web3Provider } from "./Web3Provider";
+import { Analytics } from "@vercel/analytics/next";
 
 const monstrerat = Montserrat_Subrayada({
   weight: "400",
@@ -38,6 +39,12 @@ export const metadata: Metadata = {
       "Support creators you love using IDRX tokens with our transparent blockchain donation platform",
     images: ["/hertanate-assets/hertanate-icon.svg"],
   },
+  robots: {
+    googleBot: {
+      index: true,
+      follow: true,
+    },
+  },
 };
 
 export default function RootLayout({
@@ -50,6 +57,7 @@ export default function RootLayout({
       <body
         className={`${monstrerat.className} ${inter.className} antialiased`}
       >
+        <Analytics />
         <Web3Provider>{children}</Web3Provider>
       </body>
     </html>
