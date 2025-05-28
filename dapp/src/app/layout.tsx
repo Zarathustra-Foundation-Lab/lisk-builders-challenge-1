@@ -42,7 +42,6 @@ export const metadata: Metadata = {
   robots: {
     googleBot: {
       index: true,
-      follow: true,
     },
   },
 };
